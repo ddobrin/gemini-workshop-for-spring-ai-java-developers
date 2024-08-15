@@ -46,31 +46,35 @@ Build the samples in a single JAR, then run them individually for the respective
 > List of samples, by use-case:
 
 * [Simple Question & Answer](src/main/java/gemini/workshop/SimpleChatExample.java)
-
-```shell
-java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatExample
-```
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatExample
+    ```
 
 * [Simple Question & Answer via streaming](src/main/java/gemini/workshop/SimpleChatStreamingExample.java)
-
-```shell
-java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatStreamingExample
-```
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatStreamingExample
+    ```
 
 * [Extracting structured data from unstructured text](src/main/java/gemini/workshop/StructuredOutputExample.java)
-```shell
-java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
-```
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
+    ```
 
 * [Generating Text Embeddings with Vertex AI](src/main/java/gemini/workshop/TextEmbeddingExample.java)
-```shell
-java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextEmbeddingExample
-```
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextEmbeddingExample
+    ```
 
 * [Generating Multimodal Embeddings with Vertex AI](src/main/java/gemini/workshop/MultimodalEmbeddingExample.java)
-```shell
-java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
-```
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
+    ```
+
+* [Summarization Patterns with Gemini](src/main/java/gemini/workshop/SummarizationExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
+    ```
+
 
 --------
 This is not an official Google product.

@@ -21,6 +21,7 @@ import java.util.Map;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.DocumentEmbeddingRequest;
 import org.springframework.ai.embedding.EmbeddingOptions;
+import org.springframework.ai.embedding.EmbeddingOptionsBuilder;
 import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.ai.model.Media;
 import org.springframework.ai.reader.TextReader;
@@ -54,7 +55,7 @@ public class MultimodalEmbeddingExample {
     var document = new Document("Explain what do you see on this video?", List.of(imageMedial, videoMedial), Map.of());
 
     DocumentEmbeddingRequest embeddingRequest = new DocumentEmbeddingRequest(List.of(document),
-        EmbeddingOptions.EMPTY);
+        EmbeddingOptionsBuilder.builder().build());
 
     long start = System.currentTimeMillis();
     EmbeddingResponse embeddingResponse = embeddingModel.call(embeddingRequest);
