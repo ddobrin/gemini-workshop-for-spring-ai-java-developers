@@ -62,5 +62,9 @@ java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.work
 java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
 ```
 
----
+* [Generating Text Embeddings with Vertex AI](src/main/java/gemini/workshop/TextEmbeddingExample.java)
+```shell
+java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextEmbeddingExample
+```
+--------
 This is not an official Google product.
