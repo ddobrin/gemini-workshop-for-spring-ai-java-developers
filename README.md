@@ -54,7 +54,7 @@ java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.work
 * [Simple Question & Answer via streaming](src/main/java/gemini/workshop/SimpleChatStreamingExample.java)
 
 ```shell
-java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatExample
+java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatStreamingExample
 ```
 
 * [Extracting structured data from unstructured text](src/main/java/gemini/workshop/StructuredOutputExample.java)
@@ -66,5 +66,11 @@ java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.work
 ```shell
 java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextEmbeddingExample
 ```
+
+* [Generating Multimodal Embeddings with Vertex AI](src/main/java/gemini/workshop/MultimodalEmbeddingExample.java)
+```shell
+java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
+```
+
 --------
 This is not an official Google product.
