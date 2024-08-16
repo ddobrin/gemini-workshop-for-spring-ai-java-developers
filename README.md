@@ -43,7 +43,7 @@ Build the samples in a single JAR, then run them individually for the respective
 ```
 
 > [!TIP]
-> List of samples, by use-case:
+> List of samples, by use-case. Each sample can be run independently
 
 * [Simple Q&A with Gemini](src/main/java/gemini/workshop/SimpleChatExample.java)
     ```shell
@@ -58,6 +58,16 @@ Build the samples in a single JAR, then run them individually for the respective
 * [Simple Question & Answer via streaming](src/main/java/gemini/workshop/SimpleChatStreamingExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatStreamingExample
+    ```
+
+* [Analyzing & extracting image data using Multimodality](src/main/java/gemini/workshop/MultimodalImagesExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalImagesExample
+    ```
+
+* [Transcribing audio data using Multimodality](src/main/java/gemini/workshop/MultimodalAudioExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalAudioExample
     ```
 
 * [Structure prompts with prompt templates](src/main/java/gemini/workshop/WorkingWithTemplatesExample.java)
