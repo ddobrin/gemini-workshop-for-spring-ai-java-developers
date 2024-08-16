@@ -45,9 +45,14 @@ Build the samples in a single JAR, then run them individually for the respective
 > [!TIP]
 > List of samples, by use-case:
 
-* [Simple Question & Answer](src/main/java/gemini/workshop/SimpleChatExample.java)
+* [Simple Q&A with Gemini](src/main/java/gemini/workshop/SimpleChatExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatExample
+    ```
+
+* [Conversation with Gemini with chat history](src/main/java/gemini/workshop/ConversationExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.ConversationExample
     ```
 
 * [Simple Question & Answer via streaming](src/main/java/gemini/workshop/SimpleChatStreamingExample.java)
