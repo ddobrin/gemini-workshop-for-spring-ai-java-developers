@@ -60,6 +60,11 @@ Build the samples in a single JAR, then run them individually for the respective
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatStreamingExample
     ```
 
+* [Structure prompts with prompt templates](src/main/java/gemini/workshop/WorkingWithTemplatesExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.WorkingWithTemplatesExample
+    ```
+
 * [Extracting structured data from unstructured text](src/main/java/gemini/workshop/StructuredOutputExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample

@@ -17,11 +17,16 @@ package gemini.workshop;
 
 import com.google.cloud.vertexai.Transport;
 import com.google.cloud.vertexai.VertexAI;
+import java.util.List;
+import java.util.Map;
+import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 
-public class SimpleChatExample {
+public class WorkingWithTemplatesExample {
 
   public static void main(String[] args) {
 
@@ -39,12 +44,29 @@ public class SimpleChatExample {
             .withTopP(0.95f)
             .build());
 
-    String prompt = "Recommend a great book to read during my vacation";
+    // create system message template
+    SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate("""
+        You are a helpful AI assistant.
+        You are an AI assistant that helps people get high quality literary information.
+        Your name is {name}
+        You should reply to the user's request with your name and also in the style of a {voice}.
+        """
+    );
+    Message systemMessage = systemPromptTemplate.createMessage(
+        Map.of("name", "Professor Gemini", "voice", "literary professor"));
+
+    // create user message template
+    PromptTemplate userPromptTemplate = new PromptTemplate("""
+        Please recommend no more than {number} great {genre} book to read during my vacation.
+        Return to me strictly the name and author
+        """, Map.of("number", "4", "genre", "fiction"));
+    Message userMessage = userPromptTemplate.createMessage();
+
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
-        .call(new Prompt(prompt))
+        .call(new Prompt(List.of(userMessage, systemMessage)))
         .getResult().getOutput().getContent());
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
-  };
+  }
 }
