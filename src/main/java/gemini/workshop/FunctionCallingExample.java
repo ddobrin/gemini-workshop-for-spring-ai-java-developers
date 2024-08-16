@@ -39,7 +39,7 @@ public class FunctionCallingExample {
    * BookStoreService is a function that checks the availability of a book in the bookstore.
    * Invoked by the LLM using the function calling feature.
    */
-  @JsonClassDescription("Get the book availability in the Bookstore")
+  @JsonClassDescription("Get the book availability")
   public static class BookStoreService
       implements Function<BookStoreService.Request, BookStoreService.Response> {
 
@@ -88,14 +88,26 @@ public class FunctionCallingExample {
                     "summary", "This is the Jungle Book summary"));
     Message userMessage = userPromptTemplate.createMessage();
 
+    FunctionCallbackWrapper fnWrapper = FunctionCallbackWrapper.builder(new BookStoreService())
+        .withName("bookStoreAvailability")
+        .withDescription("Get the availability of a book in the bookstore")
+        .withSchemaType(SchemaType.OPEN_API_SCHEMA)
+        .build();
+
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
             .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withFunctionCallbacks(List.of(FunctionCallbackWrapper.builder(new BookStoreService())
-                .withName("bookStoreAvailability")
-                .withDescription("Get the availability of a book in the bookstore")
-                .build()))
+            .withFunctionCallbacks(List.of(fnWrapper))
             .build());
+
+    // var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
+    //     VertexAiGeminiChatOptions.builder()
+    //         .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL")).
+    //         .withFunctionCallbacks(List.of(FunctionCallbackWrapper.builder(new BookStoreService())
+    //             .withName("bookStoreAvailability")
+    //             .withDescription("Get the availability of a book in the bookstore")
+    //             .build()))
+    //         .build());
 
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
