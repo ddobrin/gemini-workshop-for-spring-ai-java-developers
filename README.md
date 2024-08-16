@@ -72,7 +72,7 @@ Build the samples in a single JAR, then run them individually for the respective
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalAudioExample
       ```
 
-  * [Transcribing audio data using Multimodality](src/main/java/gemini/workshop/MultimodalVideoExample.java)
+  * [Transcribing video data using Multimodality](src/main/java/gemini/workshop/MultimodalVideoExample.java)
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalVideoExample
       ```
@@ -85,6 +85,11 @@ Build the samples in a single JAR, then run them individually for the respective
 * [Extracting structured data from unstructured text](src/main/java/gemini/workshop/StructuredOutputExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
+    ```
+
+* [Function Calling with Spring AI](src/main/java/gemini/workshop/FunctionCallingExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingExample
     ```
 
 * [Generating Text Embeddings with Vertex AI](src/main/java/gemini/workshop/TextEmbeddingExample.java)
