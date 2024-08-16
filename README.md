@@ -70,10 +70,10 @@ Build the samples in a single JAR, then run them individually for the respective
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
     ```
 
-* [Summarization Patterns with Gemini](src/main/java/gemini/workshop/SummarizationExample.java)
-    ```shell
-    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
-    ```
+* [Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns](src/main/java/gemini/workshop/SummarizationExample.java)
+  ```shell
+  java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
+  ```
 
 
 --------
