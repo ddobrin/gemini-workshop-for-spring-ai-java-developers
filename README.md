@@ -109,6 +109,11 @@ Build the samples in a single JAR, then run them individually for the respective
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.GroundingWithWebsearchExample
     ```
 
+  * [Text classification with Few-shot prompting](src/main/java/gemini/workshop/TextClassificationExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextClassificationExample
+    ```
+
   * [Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns](src/main/java/gemini/workshop/SummarizationExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
