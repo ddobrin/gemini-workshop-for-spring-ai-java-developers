@@ -77,35 +77,42 @@ Build the samples in a single JAR, then run them individually for the respective
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalVideoExample
       ```
 
-* [Structure prompts with prompt templates](src/main/java/gemini/workshop/WorkingWithTemplatesExample.java)
+* Capabilities
+  * [Structure prompts with prompt templates](src/main/java/gemini/workshop/WorkingWithTemplatesExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.WorkingWithTemplatesExample
+      ```
+
+  * [Extracting structured data from unstructured text](src/main/java/gemini/workshop/StructuredOutputExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
+      ```
+
+  * [Function Calling with Spring AI](src/main/java/gemini/workshop/FunctionCallingExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingExample
+      ```
+* Embeddings
+  * [Generating Text Embeddings with Vertex AI](src/main/java/gemini/workshop/TextEmbeddingExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextEmbeddingExample
+      ```
+
+  * [Generating Multimodal Embeddings with Vertex AI](src/main/java/gemini/workshop/MultimodalEmbeddingExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
+      ```
+
+* AI use-cases and patterns 
+  * [Grounding responses with Web Search](src/main/java/gemini/workshop/GroundingWithWebsearchExample.java)
     ```shell
-    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.WorkingWithTemplatesExample
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.GroundingWithWebsearchExample
     ```
 
-* [Extracting structured data from unstructured text](src/main/java/gemini/workshop/StructuredOutputExample.java)
+  * [Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns](src/main/java/gemini/workshop/SummarizationExample.java)
     ```shell
-    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
     ```
-
-* [Function Calling with Spring AI](src/main/java/gemini/workshop/FunctionCallingExample.java)
-    ```shell
-    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingExample
-    ```
-
-* [Generating Text Embeddings with Vertex AI](src/main/java/gemini/workshop/TextEmbeddingExample.java)
-    ```shell
-    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextEmbeddingExample
-    ```
-
-* [Generating Multimodal Embeddings with Vertex AI](src/main/java/gemini/workshop/MultimodalEmbeddingExample.java)
-    ```shell
-    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
-    ```
-
-* [Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns](src/main/java/gemini/workshop/SummarizationExample.java)
-  ```shell
-  java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
-  ```
 
 
 --------
