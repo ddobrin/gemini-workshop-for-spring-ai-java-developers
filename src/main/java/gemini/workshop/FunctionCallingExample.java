@@ -39,7 +39,7 @@ public class FunctionCallingExample {
    * BookStoreService is a function that checks the availability of a book in the bookstore.
    * Invoked by the LLM using the function calling feature.
    */
-  @JsonClassDescription("Get the book availability")
+  @JsonClassDescription("Get the book availability in the bookstore")
   public static class BookStoreService
       implements Function<BookStoreService.Request, BookStoreService.Response> {
 
@@ -57,7 +57,8 @@ public class FunctionCallingExample {
     public Response apply(Request request) {
       System.out.printf("Called getBookAvailability(%s, %s)", request.title(), request.author());
       return new Response(request.title(), request.author(), "The book is available for purchase in the book store in paperback format.");
-    }  }
+    }
+  }
 
   public static void main(String[] args) {
 
@@ -81,7 +82,7 @@ public class FunctionCallingExample {
     // create user message template
     PromptTemplate userPromptTemplate = new PromptTemplate("""
         Write a nice note including book author, book title and availability.
-        Find out if the book with the title {title} by author {author} is available in the University bookstore.
+        Find out if the book with the title {title} by author {author} is available in the bookstore.
         Please add also this book summary to the response, with the text available after the column, prefix it with My Book Summary:  {summary}"
         """, Map.of("title", "The Jungle Book",
                     "author", "Rudyard Kipling",
@@ -90,7 +91,7 @@ public class FunctionCallingExample {
 
     FunctionCallbackWrapper fnWrapper = FunctionCallbackWrapper.builder(new BookStoreService())
         .withName("bookStoreAvailability")
-        .withDescription("Get the availability of a book in the bookstore")
+        .withDescription("Get availability of a book in the bookstore")
         .withSchemaType(SchemaType.OPEN_API_SCHEMA)
         .build();
 
@@ -98,11 +99,13 @@ public class FunctionCallingExample {
         VertexAiGeminiChatOptions.builder()
             .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .withFunctionCallbacks(List.of(fnWrapper))
+            .withFunction("bookStoreAvailability")
             .build());
 
     // var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
     //     VertexAiGeminiChatOptions.builder()
-    //         .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL")).
+    //         .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+    //         .withFunction("bookStoreAvailability")
     //         .withFunctionCallbacks(List.of(FunctionCallbackWrapper.builder(new BookStoreService())
     //             .withName("bookStoreAvailability")
     //             .withDescription("Get the availability of a book in the bookstore")
