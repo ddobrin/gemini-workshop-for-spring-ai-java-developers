@@ -35,7 +35,7 @@ public class GroundingWithWebsearchExample {
     try (VertexAI vertexAI = new VertexAI.Builder()
         .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
         .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setTransport(Transport.GRPC)
+        .setTransport(Transport.REST)
         .build()) {
 
       // Enable using the result from this tool in detecting grounding

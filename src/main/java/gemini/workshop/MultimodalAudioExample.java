@@ -35,7 +35,7 @@ public class MultimodalAudioExample {
     try (VertexAI vertexAI = new VertexAI.Builder()
         .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
         .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setTransport(Transport.GRPC)
+        .setTransport(Transport.REST)
         .build()) {
 
         // Read the MP3 file from the classpath

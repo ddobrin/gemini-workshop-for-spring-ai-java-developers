@@ -65,7 +65,7 @@ public class FunctionCallingExample {
     VertexAI vertexAI = new VertexAI.Builder()
         .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
         .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setTransport(Transport.GRPC)
+        .setTransport(Transport.REST)
         .build();
 
     // create system message template
