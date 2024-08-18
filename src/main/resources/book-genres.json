@@ -1,0 +1,17 @@
+[
+  { "genre": "Fantasy", "description": "Includes magic, mythical creatures, and alternate universes." },
+  { "genre": "Science Fiction", "description": "Speculative fiction dealing with advanced technology or future settings." },
+  { "genre": "Mystery", "description": "Stories involving a crime or puzzle to be solved." },
+  { "genre": "Romance", "description": "Focuses on romantic relationships." },
+  { "genre": "Horror", "description": "Elicits fear or suspense." },
+  { "genre": "Historical Fiction", "description": "Set in a historical period." },
+  { "genre": "Dystopian", "description": "Depicts a future society that is often oppressive or undesirable." },
+  { "genre": "Comedy", "description": "Intended to be humorous." },
+  { "genre": "Biography/Autobiography", "description": "Accounts of a person's life." },
+  { "genre": "History", "description": "Records of past events." },
+  { "genre": "Science", "description": "Deals with the natural world and its phenomena." },
+  { "genre": "Self-Help", "description": "Offers advice or guidance on personal development." },
+  { "genre": "Business/Economics", "description": "Related to business, finance, and economics." },
+  { "genre": "Cookbook", "description": "Contains recipes for preparing food." },
+  { "genre": "Travel", "description": "Describes places and cultures." }
+]
