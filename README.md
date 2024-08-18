@@ -92,6 +92,12 @@ Build the samples in a single JAR, then run them individually for the respective
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingExample
       ```
+* Documents
+  * [Document Readers and Splitters](src/main/java/gemini/workshop/DocumentProcessingExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.DocumentProcessingExample
+      ```
+
 * Embeddings
   * [Generating Text Embeddings with Vertex AI](src/main/java/gemini/workshop/TextEmbeddingExample.java)
       ```shell
