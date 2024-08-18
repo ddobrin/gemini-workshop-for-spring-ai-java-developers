@@ -64,7 +64,7 @@ public class MultimodalImagesExample {
 
     // create user message
     String userPrompt = """
-      Extract the title and author from the image, strictly in JSON format. 
+      Extract the title and author from the image, strictly in JSON format.
       Add a description of the image to the JSON response
       """;
     Message userMessage = new UserMessage(

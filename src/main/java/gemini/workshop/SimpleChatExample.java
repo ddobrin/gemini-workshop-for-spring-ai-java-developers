@@ -46,5 +46,5 @@ public class SimpleChatExample {
         .getResult().getOutput().getContent());
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
-  };
+  }
 }

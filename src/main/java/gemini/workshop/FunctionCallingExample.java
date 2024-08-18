@@ -102,6 +102,7 @@ public class FunctionCallingExample {
             .withFunction("bookStoreAvailability")
             .build());
 
+    // Alternatively:
     // var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
     //     VertexAiGeminiChatOptions.builder()
     //         .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))

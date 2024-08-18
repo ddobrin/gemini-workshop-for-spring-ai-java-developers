@@ -60,8 +60,8 @@ public class MultimodalVideoExample {
 
         GenerateContentResponse response = model.generateContent(
             ContentMaker.fromMultiModalData("""
-                Provide a description of the video.\n The description should also
-                contain anything important which people say in the video.
+                Provide a description of the video.
+                The description should also contain anything important which people say in the video.
                 """,
                 PartMaker.fromMimeTypeAndData("video/mp4", audioByteString)
             ));

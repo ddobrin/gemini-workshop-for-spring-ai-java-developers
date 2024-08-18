@@ -18,7 +18,6 @@ package gemini.workshop;
 import com.google.cloud.vertexai.Transport;
 import com.google.cloud.vertexai.VertexAI;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,9 +35,6 @@ import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.reader.TextReader;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 
 public class SummarizationExample {
   private static final int CHUNK_SIZE = 10000;  // Number of words in each window
@@ -173,7 +169,7 @@ public class SummarizationExample {
       
       ```Text:{content}```
 
-      Output starts with SUMMARY:        
+      Output starts with SUMMARY:
       """, Map.of("content", context));
     Message userMessage = userPromptTemplate.createMessage();
 
@@ -211,7 +207,7 @@ public class SummarizationExample {
         
         ```{content}```
         
-        Output starts with CONCISE SUB-SUMMARY:            
+        Output starts with CONCISE SUB-SUMMARY:
         """;
 
     String subsummaryResource =
@@ -224,7 +220,7 @@ public class SummarizationExample {
         
         ```{content}```
         
-        Output starts with CONCISE SUB-SUMMARY:            
+        Output starts with CONCISE SUB-SUMMARY:
         """;
 
     if(context.trim().isEmpty()) {

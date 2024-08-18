@@ -44,12 +44,12 @@ public class ConversationExample {
     long start = System.currentTimeMillis();
 
     // use an InMemoryChat approach and inject past responses in the System Message
-    // prompt in sunsequent calls
+    // prompt in subsequent calls
     ChatMemory chatMemory = new InMemoryChatMemory();
 
     var chatClient = ChatClient.builder(geminiChatModel)
         .defaultSystem("""
-            	You are a helpful AI assistant with extensive literature knowledge. 
+            	You are a helpful AI assistant with extensive literature knowledge.
               You are an AI assistant that helps people find information.
               You should reply to the user's request in the style of a literary professor.
               If you don't know the answer, just say that you don't know, don't try to make up an answer.
@@ -78,5 +78,5 @@ public class ConversationExample {
 
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
-  };
+  }
 }

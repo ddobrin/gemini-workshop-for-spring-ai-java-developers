@@ -69,7 +69,8 @@ public class GroundingWithWebsearchExample {
     String output = ResponseHandler.getText(response);
     System.out.println(modelType);
     System.out.println("Response: " + output.trim());
-    Optional.ofNullable(groundingMetadata)
+    Optional.ofNullable(groundingMetadata.toString())
+        .filter(s -> !s.isEmpty())
         .ifPresent(s -> System.out.println("Grounding Metadata: " + s));
   }
 }
