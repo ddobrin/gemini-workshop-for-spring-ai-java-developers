@@ -25,6 +25,7 @@ import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
+import org.springframework.core.io.ClassPathResource;
 
 public class WorkingWithTemplatesExample {
 
@@ -43,6 +44,10 @@ public class WorkingWithTemplatesExample {
             .withTopK(40f)
             .withTopP(0.95f)
             .build());
+
+    //-------------------------------------------
+    // option1 : templates directly as strings
+    //-------------------------------------------
 
     // create system message template
     SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate("""
@@ -68,5 +73,12 @@ public class WorkingWithTemplatesExample {
         .getResult().getOutput().getContent());
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+
+    //-------------------------------------------
+    // option2 : templates as resource files
+    // Can be governed, versioned, etc
+    //-------------------------------------------
+    SystemPromptTemplate templatefromFile = new SystemPromptTemplate(new ClassPathResource("/prompts/system-message.st"));
+    System.out.println("\n\nTemplate read as resource from disk: \n" + templatefromFile.getTemplate());
   }
 }
