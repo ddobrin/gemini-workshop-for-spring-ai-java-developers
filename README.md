@@ -36,12 +36,36 @@ mvn wrapper:wrapper
 ```
 
 ## Codelab Samples
+The samples in this codelab are grouped by various capabilities and patterns. You will find, in order:
+* Chat
+  * Simple Q&A with Gemini
+  * Conversation with Gemini with chat history
+  * Simple Q&A via streaming
+* Multimodality
+  * Analyzing & extracting image data using Multimodality
+  * Transcribing audio data using Multimodality
+  * Transcribing video data using Multimodality
+* Capabilities
+  * Structure prompts with prompt templates
+  * Extracting structured data from unstructured text
+  * Grounding responses with Web Search
+  * Function Calling with Spring AI
+* Document utilities
+  * Document Readers and Splitters
+* Embeddings
+  * Generating Text Embeddings with Vertex AI
+  * Generating Multimodal Embeddings with Vertex AI
+* AI use-cases and patterns
+  * Retrieval-augmented generation(RAG)
+  * Text classification with Few-shot prompting
+  * Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns
 
+### Build
 Build the samples in a single JAR, then run them individually for the respective use-case:
 ```shell
 ./mvnw clean package -Pcomplete
 ```
-
+### Run
 > [!TIP]
 > List of samples, by use-case. Each sample can be run independently
 
@@ -56,7 +80,7 @@ Build the samples in a single JAR, then run them individually for the respective
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.ConversationExample
       ```
 
-  * [Simple Question & Answer via streaming](src/main/java/gemini/workshop/SimpleChatStreamingExample.java)
+  * [Simple Q&A via streaming](src/main/java/gemini/workshop/SimpleChatStreamingExample.java)
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SimpleChatStreamingExample
       ```
