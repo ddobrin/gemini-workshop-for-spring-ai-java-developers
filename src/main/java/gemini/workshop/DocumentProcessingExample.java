@@ -17,8 +17,11 @@ package gemini.workshop;
 
 import java.util.List;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.JsonReader;
 import org.springframework.ai.reader.TextReader;
+import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
+import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.core.io.ClassPathResource;
 
@@ -50,17 +53,20 @@ public class DocumentProcessingExample {
           document.getContent().length());
 
 
-    // problem with PDF readers
-    // commented out
-    // PagePdfDocumentReader pdfReader = new PagePdfDocumentReader("classpath:/sample1.pdf",
-    //     PdfDocumentReaderConfig.builder()
-    //         .withPageTopMargin(0)
-    //         .withPageExtractedTextFormatter(ExtractedTextFormatter.builder()
-    //             .withNumberOfTopTextLinesToDelete(0)
-    //             .build())
-    //         .withPagesPerDocument(1)
-    //         .build());
-    // pdfReader.read();
+    // read PDF documents
+    PagePdfDocumentReader pdfReader = new PagePdfDocumentReader("classpath:/attention-is-all-you-need.pdf",
+        PdfDocumentReaderConfig.builder()
+            .withPageTopMargin(0)
+            .withPageExtractedTextFormatter(ExtractedTextFormatter.builder()
+                .withNumberOfTopTextLinesToDelete(0)
+                .build())
+            .withPagesPerDocument(1)
+            .build());
+    List<Document> pdfDocument = pdfReader.read();
+    for(Document document : pdfDocument)
+      System.out.printf("Read PDF document %s ... with length %d\n",
+          document.getContent().trim().substring(0, 50),
+          document.getContent().length());
 
     //---------------------------
     //Test splitting into chunks
