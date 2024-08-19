@@ -59,6 +59,8 @@ The samples in this codelab are grouped by various capabilities and patterns. Yo
   * Retrieval-augmented generation(RAG)
   * Text classification with Few-shot prompting
   * Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns
+* Local environments
+  *  Running Open-models with Ollama and Testcontainers
 
 ### Build
 Build the samples in a single JAR, then run them individually for the respective use-case:
@@ -152,7 +154,10 @@ Build the samples in a single JAR, then run them individually for the respective
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
     ```
-
-
+* Local environments
+  * [Running Open-models with Ollama and Testcontainers](src/main/java/gemini/workshop/LocalTestingWithOllamaContainers.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.LocalTestingWithOllamaContainers
+    ```
 --------
 This is not an official Google product.
