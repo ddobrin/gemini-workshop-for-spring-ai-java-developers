@@ -87,12 +87,16 @@ Build the samples in a single JAR, then run them individually for the respective
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
       ```
-
+  * [Grounding responses with Web Search](src/main/java/gemini/workshop/GroundingWithWebsearchExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.GroundingWithWebsearchExample
+    ```
+    
   * [Function Calling with Spring AI](src/main/java/gemini/workshop/FunctionCallingExample.java)
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingExample
       ```
-* Documents
+* Document utilities
   * [Document Readers and Splitters](src/main/java/gemini/workshop/DocumentProcessingExample.java)
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.DocumentProcessingExample
@@ -109,12 +113,12 @@ Build the samples in a single JAR, then run them individually for the respective
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
       ```
 
-* AI use-cases and patterns 
-  * [Grounding responses with Web Search](src/main/java/gemini/workshop/GroundingWithWebsearchExample.java)
+* AI use-cases and patterns
+  * [Retrieval-augmented generation(RAG)](src/main/java/gemini/workshop/RAGExample.java)
     ```shell
-    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.GroundingWithWebsearchExample
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.RAGExample
     ```
-
+     
   * [Text classification with Few-shot prompting](src/main/java/gemini/workshop/TextClassificationExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextClassificationExample
