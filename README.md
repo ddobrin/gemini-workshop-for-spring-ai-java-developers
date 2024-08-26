@@ -113,9 +113,14 @@ Build the samples in a single JAR, then run them individually for the respective
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
       ```
-  * [Grounding responses with Web Search](src/main/java/gemini/workshop/GroundingWithWebsearchExample.java)
+  * [Grounding responses with Web Search with Vertex SDK](src/main/java/gemini/workshop/GroundingWithWebsearchExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.GroundingWithWebsearchExample
+    ```
+
+  * [Grounding responses with Web Search with SpringAI](src/main/java/gemini/workshop/GroundingWithWebsearchSpringAIExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.GroundingWithWebsearchSpringAIExample
     ```
     
   * [Function Calling with Spring AI](src/main/java/gemini/workshop/FunctionCallingExample.java)
