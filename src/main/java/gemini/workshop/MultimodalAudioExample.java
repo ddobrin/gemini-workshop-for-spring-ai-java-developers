@@ -58,6 +58,7 @@ public class MultimodalAudioExample {
         // add the configuration to the model object
         model.withGenerationConfig(generationOptions);
 
+        long start = System.currentTimeMillis();
         GenerateContentResponse response = model.generateContent(
             ContentMaker.fromMultiModalData(
                 "Please transcribe this audiobook with utmost accuracy",
@@ -66,6 +67,8 @@ public class MultimodalAudioExample {
 
       String output = ResponseHandler.getText(response);
       System.out.println(output);
+      System.out.println(
+          "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
     }
   }
 }

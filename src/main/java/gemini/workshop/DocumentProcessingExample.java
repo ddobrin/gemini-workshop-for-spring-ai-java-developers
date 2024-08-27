@@ -39,7 +39,8 @@ public class DocumentProcessingExample {
         textReader.getCustomMetadata().get(TextReader.CHARSET_METADATA),
         bookText.substring(0, 200));
 
-    // read JSON documents
+    // Read JSON documents
+    //--------------------
     //    NOTE: it reads a LIST of JSON documents
     //    To use this reader, provide a list of documents
     //    in this example: [ {..} ]
@@ -52,8 +53,8 @@ public class DocumentProcessingExample {
           document.getContent(),
           document.getContent().length());
 
-
-    // read PDF documents
+    // Read PDF documents
+    //--------------------
     PagePdfDocumentReader pdfReader = new PagePdfDocumentReader("classpath:/attention-is-all-you-need.pdf",
         PdfDocumentReaderConfig.builder()
             .withPageTopMargin(0)
@@ -68,9 +69,9 @@ public class DocumentProcessingExample {
           document.getContent().trim().substring(0, 50),
           document.getContent().length());
 
-    //---------------------------
-    //Test splitting into chunks
 
+    //Test splitting into chunks
+    //---------------------------
     // override the default chunking values as per your use case:
     // The target size of each text chunk in tokens
     // 	private int defaultChunkSize = 800;

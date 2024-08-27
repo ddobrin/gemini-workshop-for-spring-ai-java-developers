@@ -46,6 +46,8 @@ public class StructuredOutputExample {
 		PromptTemplate promptTemplate = new PromptTemplate(template,
 				Map.of("subject", "book, author and quote", "format", format));
 		Prompt prompt = new Prompt(promptTemplate.createMessage());
+
+		long start = System.currentTimeMillis();
 		Generation generation = chatClient.call(prompt).getResult();
 
 		Map<String, Object> result = mapOutputConverter.convert(generation.getOutput().getContent());
@@ -53,7 +55,8 @@ public class StructuredOutputExample {
 		System.out.println("Prompt for MapConverter test:" + prompt.getContents());
 		System.out.println("Format this response to a map: " + generation.getOutput().getContent());
 		System.out.println("Formatted response: " + result);
-
+		System.out.println(
+				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 	}
 
 	public static void listOutputConverter(VertexAiGeminiChatModel chatClient) {
@@ -70,6 +73,8 @@ public class StructuredOutputExample {
 		PromptTemplate promptTemplate = new PromptTemplate(template,
 				Map.of("subject", "important fiction books I should read in my lifetime, with book and author", "format", format));
 		Prompt prompt = new Prompt(promptTemplate.createMessage());
+
+		long start = System.currentTimeMillis();
 		Generation generation = chatClient.call(prompt).getResult();
 
 		List<String> list = listOutputConverter.convert(generation.getOutput().getContent());
@@ -77,6 +82,8 @@ public class StructuredOutputExample {
 		System.out.println("Prompt for ListConverter test:" + prompt.getContents());
 		System.out.println("Format this response to a List: " + generation.getOutput().getContent());
 		System.out.println("Formatted response: " + list);
+		System.out.println(
+				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 	}
 
 	public static void beanOutputConverter(VertexAiGeminiChatModel chatClient) {
@@ -95,6 +102,8 @@ public class StructuredOutputExample {
 
 		Prompt prompt = new Prompt(
 				new PromptTemplate(template, Map.of("writer", writer, "format", format)).createMessage());
+
+		long start = System.currentTimeMillis();
 		Generation generation = chatClient.call(prompt)
 				.getResult();
 
@@ -105,6 +114,8 @@ public class StructuredOutputExample {
 		BooksAuthor writerBooks = beanOutputConverter.convert(content);
 
 		System.out.println("Formatted response: " + writerBooks);
+		System.out.println(
+				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 	}
 
 	public static void main(String[] args) {

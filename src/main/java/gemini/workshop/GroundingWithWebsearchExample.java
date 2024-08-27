@@ -62,7 +62,9 @@ public class GroundingWithWebsearchExample {
     }
   }
 
+  // Call model with Google Websearch enabled|disabled
   private static void askModel(GenerativeModel model, String modelType, String prompt) throws IOException {
+    long start = System.currentTimeMillis();
     GenerateContentResponse response = model.generateContent(prompt);
     GroundingMetadata groundingMetadata = response.getCandidates(0).getGroundingMetadata();
 
@@ -72,5 +74,7 @@ public class GroundingWithWebsearchExample {
     Optional.ofNullable(groundingMetadata.toString())
         .filter(s -> !s.isEmpty())
         .ifPresent(s -> System.out.println("Grounding Metadata: " + s));
+    System.out.println(
+        "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }
 }

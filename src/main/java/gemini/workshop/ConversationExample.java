@@ -75,7 +75,6 @@ public class ConversationExample {
               .content();
           System.out.println("Gemini: " + response);
         });
-
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }

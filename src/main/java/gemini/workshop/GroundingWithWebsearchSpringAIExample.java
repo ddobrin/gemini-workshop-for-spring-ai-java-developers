@@ -17,23 +17,14 @@ package gemini.workshop;
 
 import com.google.cloud.vertexai.Transport;
 import com.google.cloud.vertexai.VertexAI;
-import com.google.cloud.vertexai.api.GenerateContentResponse;
-import com.google.cloud.vertexai.api.GroundingMetadata;
-import com.google.cloud.vertexai.generativeai.GenerativeModel;
-import com.google.cloud.vertexai.generativeai.ResponseHandler;
-import java.io.IOException;
-import java.util.Optional;
-import org.springframework.ai.chat.metadata.ChatResponseMetadata;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 
 public class GroundingWithWebsearchSpringAIExample {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
 
     VertexAI vertexAI = new VertexAI.Builder()
         .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
@@ -46,7 +37,7 @@ public class GroundingWithWebsearchSpringAIExample {
     askModel(vertexAI,"Grounded Gemini model", true);
   }
 
-  private static void askModel(VertexAI vertexAI, String modelType, boolean useWebSearch) throws IOException {
+  private static void askModel(VertexAI vertexAI, String modelType, boolean useWebSearch) {
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
             .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
@@ -62,7 +53,6 @@ public class GroundingWithWebsearchSpringAIExample {
     long start = System.currentTimeMillis();
     System.out.println("Model type: " + modelType);
     ChatResponse chatResponse = geminiChatModel.call(promptObject);
-    ChatResponseMetadata chatResponseMetadata = chatResponse.getMetadata();
 
     System.out.println("GEMINI: " + chatResponse.getResult().getOutput().getContent());
     System.out.println(

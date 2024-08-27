@@ -131,7 +131,7 @@ public class RAGExample {
         Map.of("documents", content));
 
     PromptTemplate userPromptTemplate = new PromptTemplate("""
-        Provide an analysis of the book {book} by {author} 
+        Provide an analysis of the book {book} by {author}
         with the skills of a literary critic.
         What factor do the following {keywords} play in the narrative of the book.
         """

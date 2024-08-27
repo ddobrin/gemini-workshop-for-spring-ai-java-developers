@@ -117,8 +117,7 @@ public class FunctionCallingExample {
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(List.of(userMessage, systemMessage)))
         .getResult().getOutput().getContent());
-
     System.out.println(
-        "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+        "VertexAI Gemini call with FunctionCalling took " + (System.currentTimeMillis() - start) + " ms");
   }
 }
