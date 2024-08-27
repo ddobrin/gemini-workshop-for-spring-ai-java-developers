@@ -38,9 +38,6 @@ import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 import java.util.stream.Collectors;
 
 public class RAGExample {
-  private static final int CHUNK_SIZE = 10000;  // Number of words in each window
-  private static final int OVERLAP_SIZE = 2000;
-
   public static void main(String[] args) {
     VertexAI vertexAI = new VertexAI.Builder()
         .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))

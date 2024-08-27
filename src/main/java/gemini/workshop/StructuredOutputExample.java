@@ -37,7 +37,7 @@ public class StructuredOutputExample {
 
 		String format = mapOutputConverter.getFormat();
 		String template = """
-				You are a helpful AI assistant. 
+				You are a helpful AI assistant.
         You are an AI assistant that helps people find information.
         You should reply to the user's request in the style of a literary professor.
 				Provide me a quote from a random book, including only {subject}
@@ -64,9 +64,9 @@ public class StructuredOutputExample {
 
 		String format = listOutputConverter.getFormat();
 		String template = """
-				You are a helpful AI assistant. 
+				You are a helpful AI assistant.
         You are an AI assistant that helps people find information.
-        You should reply to the user's request in the style of a literary professor.				
+        You should reply to the user's request in the style of a literary professor.
 				List the top ten {subject}
 				{format}
 				""";
