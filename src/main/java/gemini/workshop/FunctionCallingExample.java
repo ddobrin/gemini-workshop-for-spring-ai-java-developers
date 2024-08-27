@@ -55,7 +55,7 @@ public class FunctionCallingExample {
 
     @Override
     public Response apply(Request request) {
-      System.out.printf("Called getBookAvailability(%s, %s)", request.title(), request.author());
+      System.out.printf("Function Call: Called getBookAvailability(%s, %s)\n", request.title(), request.author());
       return new Response(request.title(), request.author(), "The book is available for purchase in the book store in paperback format.");
     }
   }
@@ -89,6 +89,8 @@ public class FunctionCallingExample {
                     "summary", "This is the Jungle Book summary"));
     Message userMessage = userPromptTemplate.createMessage();
 
+    // build a FunctionCallbackWrapper to regisater the BookStoreService
+    // as a function
     FunctionCallbackWrapper fnWrapper = FunctionCallbackWrapper.builder(new BookStoreService())
         .withName("bookStoreAvailability")
         .withDescription("Get availability of a book in the bookstore")

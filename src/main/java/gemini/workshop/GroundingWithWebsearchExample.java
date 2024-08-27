@@ -57,7 +57,9 @@ public class GroundingWithWebsearchExample {
       String prompt = "Which country won most medals at the Paris 2024 Olympics";
 
       // call the 2 models
+      // observe that the non-grounded call can't provide the requested info
       askModel(nonGroundedModel, "Non-grounded model search:", prompt);
+      // grounded call can provide the requested info
       askModel(groundedModel, "Model grounded with web search:", prompt);
     }
   }

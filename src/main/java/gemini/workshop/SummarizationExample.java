@@ -201,7 +201,7 @@ public class SummarizationExample {
     long start = System.currentTimeMillis();
 
     PromptTemplate userPromptTemplate;
-    String subsummaryOverlapTemplate =
+    String subSummaryOverlapTemplate =
         """
         Write a concise summary of the following text delimited by triple backquotes.
         
@@ -210,7 +210,7 @@ public class SummarizationExample {
         Output starts with CONCISE SUB-SUMMARY:
         """;
 
-    String subsummaryResource =
+    String subSummaryResource =
         """
         Taking the following context delimited by triple backquotes into consideration
         
@@ -224,9 +224,9 @@ public class SummarizationExample {
         """;
 
     if(context.trim().isEmpty()) {
-      userPromptTemplate = new PromptTemplate(subsummaryOverlapTemplate, Map.of("content", chunk));
+      userPromptTemplate = new PromptTemplate(subSummaryOverlapTemplate, Map.of("content", chunk));
     } else {
-      userPromptTemplate = new PromptTemplate(subsummaryResource, Map.of("context", context, "content", chunk));
+      userPromptTemplate = new PromptTemplate(subSummaryResource, Map.of("context", context, "content", chunk));
     }
     Message userMessage = userPromptTemplate.createMessage();
 

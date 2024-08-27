@@ -33,11 +33,14 @@ public class GroundingWithWebsearchSpringAIExample {
         .build();
 
     // call the 2 models
+    // observe that the non-grounded call can't provide the requested info
     askModel(vertexAI,"Non-grounded Gemini model", false);
+    // grounded call can provide the requested info
     askModel(vertexAI,"Grounded Gemini model", true);
   }
 
   private static void askModel(VertexAI vertexAI, String modelType, boolean useWebSearch) {
+    // enable or disable Web Search with Google in the ChatOptions
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
             .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
@@ -48,6 +51,9 @@ public class GroundingWithWebsearchSpringAIExample {
             .build());
 
     String prompt = "Which country won most medals at the Paris 2024 Olympics";
+    // Spring AI issue - fixed  in upcoming release
+    // Websearch flag must be set in a Prompt object creation
+    // currently, setting it in the ChatOptions won't copy the flag in the prompt
     Prompt promptObject = new Prompt(prompt, VertexAiGeminiChatOptions.builder().withGoogleSearchRetrieval(useWebSearch).build());
 
     long start = System.currentTimeMillis();

@@ -26,9 +26,6 @@ import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.core.io.ClassPathResource;
 
 public class DocumentProcessingExample {
-  private static final int CHUNK_SIZE = 10000;  // Number of words in each window
-  private static final int OVERLAP_SIZE = 2000;
-
   public static void main(String[] args) {
     // read Text in txt format
     TextReader textReader = new TextReader("classpath:/the-jungle-book.txt");

@@ -40,6 +40,8 @@ public class SimpleChatExample {
             .build());
 
     String prompt = "Recommend a great book to read during my vacation";
+
+    // call Gemini in VertexAI
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(prompt))

@@ -39,7 +39,7 @@ public class SimpleChatStreamingExample {
 
     String prompt = "Recommend five great fiction books to read during my vacation, while travelling around Europe";
 
-    // print responses as they are receeived
+    // stream responses and print as they are received
     long start = System.currentTimeMillis();
     Flux<String> responseStream = geminiChatModel.stream(prompt);
     responseStream

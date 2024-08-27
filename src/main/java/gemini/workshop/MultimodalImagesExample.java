@@ -71,6 +71,7 @@ public class MultimodalImagesExample {
         userPrompt,
         List.of(new Media(MimeTypeUtils.IMAGE_JPEG, imageData)));
 
+    // send the image to Gemini for multimodal analysis
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(List.of(userMessage, systemMessage)))

@@ -50,9 +50,11 @@ public class MultimodalEmbeddingExample {
 
     var document = new Document("Explain what do you see on this video?", List.of(imageMedial, videoMedial), Map.of());
 
+    // create a new Embedding Request
     DocumentEmbeddingRequest embeddingRequest = new DocumentEmbeddingRequest(List.of(document),
         EmbeddingOptionsBuilder.builder().build());
 
+    // call the embedding model
     long start = System.currentTimeMillis();
     EmbeddingResponse embeddingResponse = embeddingModel.call(embeddingRequest);
     System.out.println("Embedding response: " + Arrays.toString(embeddingResponse.getResult().getOutput()));
