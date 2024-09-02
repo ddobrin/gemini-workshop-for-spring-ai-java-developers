@@ -58,11 +58,15 @@ The samples in this codelab are grouped by various capabilities and patterns. Yo
 * AI use-cases and patterns
   * Retrieval-augmented generation(RAG)
   * Text classification with Few-shot prompting
+  * Sentiment analysis with few-shot prompting 
   * Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns
 * Local environments
   *  Running Open-models with Ollama and Testcontainers
 
 ### Build
+> [!TIP]
+> Note the profiles `complete` used for the build
+
 Build the samples in a single JAR, then run them individually for the respective use-case:
 ```shell
 ./mvnw clean package -Pcomplete
@@ -153,6 +157,11 @@ Build the samples in a single JAR, then run them individually for the respective
   * [Text classification with Few-shot prompting](src/main/java/gemini/workshop/TextClassificationExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextClassificationExample
+    ```
+
+  * [Sentiment analysis with Few-shot prompting](src/main/java/gemini/workshop/SentimentAnalysisExample.java)
+    ```shell
+    java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SentimentAnalysisExample
     ```
 
   * [Summarization Patterns with Gemini: Stuffing, Map-Reduce Patterns](src/main/java/gemini/workshop/SummarizationExample.java)
