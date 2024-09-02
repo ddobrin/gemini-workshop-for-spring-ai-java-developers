@@ -118,7 +118,7 @@ public class SentimentAnalysisExample {
         .system(systemMessage)
         .advisors(new PromptChatMemoryAdvisor(chatMemory))
         .user("""
-            In which category does the jungle book by richard kipling fit in best? 
+            In which category does the jungle book by Rudyard Kipling fit in best? 
             What is the name of the main character? 
             Is the main character portrayed in one of the following ways: positive, neutral, ambiguous or negative? 
             Recommend other books with similar characters. 
