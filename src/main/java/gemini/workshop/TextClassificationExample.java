@@ -19,7 +19,7 @@ import com.google.cloud.vertexai.Transport;
 import com.google.cloud.vertexai.VertexAI;
 import java.util.List;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.messages.AssistantMessage;
@@ -116,7 +116,7 @@ public class TextClassificationExample {
             .build()
         .prompt()
         .system(systemMessage)
-        .advisors(new PromptChatMemoryAdvisor(chatMemory))
+        .advisors(new MessageChatMemoryAdvisor(chatMemory))
         .user("In which category would The Jungle Book by Rudyard Kipling fit best?")
         .call()
         .content();
