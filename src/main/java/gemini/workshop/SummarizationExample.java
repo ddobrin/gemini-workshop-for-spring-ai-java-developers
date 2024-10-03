@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -81,13 +82,14 @@ public class SummarizationExample {
     );
     Message systemMessage = systemPromptTemplate.createMessage(
         Map.of("name", "Gemini", "voice", "literary critic"));
+      String title = "", author = "";
 
     // create user message template
     PromptTemplate userPromptTemplate = new PromptTemplate("""
-        "Please provide a concise summary covering the key points of the following text.
-                          TEXT: {content}
-                          SUMMARY:
-        """, Map.of("content", bookText));
+            Please provide a concise summary covering the key points of the book {title} by {author}.
+            If you do not have the information, use Google web search to ground your answer.
+            Do not make information up
+        """, Map.of("title", title, "author", author));
     Message userMessage = userPromptTemplate.createMessage();
 
     // summarize document by stuffing the prompt with the content of the document
@@ -144,7 +146,7 @@ public class SummarizationExample {
 
     // Build the final context string from the sorted entries in the resultMap
     StringBuilder contextBuilder = new StringBuilder();
-    for (Map.Entry<Integer, String> entry : resultMap.entrySet()) {
+    for (Entry<Integer, String> entry : resultMap.entrySet()) {
           //            System.out.println("Index " + entry.getKey() + ": " + entry.getValue());
       contextBuilder.append(entry.getValue()).append("\n");
     }
