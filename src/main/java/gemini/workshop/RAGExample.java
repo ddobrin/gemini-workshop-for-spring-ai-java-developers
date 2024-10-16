@@ -30,7 +30,7 @@ import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.ai.vertexai.embedding.VertexAiEmbeddigConnectionDetails;
+import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingOptions;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
@@ -48,9 +48,9 @@ public class RAGExample {
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
             .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withTemperature(0.8f)
-            .withTopK(40f)
-            .withTopP(0.95f)
+            .withTemperature(0.8)
+            .withTopK(5.0f)
+            .withTopP(0.95)
             .build());
 
     // read Text in txt format
@@ -84,8 +84,8 @@ public class RAGExample {
           chunk.getContent().substring(0, 25),
           chunk.getContent().length());
 
-    VertexAiEmbeddigConnectionDetails connectionDetails =
-        VertexAiEmbeddigConnectionDetails.builder()
+    VertexAiEmbeddingConnectionDetails connectionDetails =
+        VertexAiEmbeddingConnectionDetails.builder()
             .withProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
             .withLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
             .build();

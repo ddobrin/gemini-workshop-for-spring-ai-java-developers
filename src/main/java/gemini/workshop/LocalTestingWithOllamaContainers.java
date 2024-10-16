@@ -75,7 +75,7 @@ public class LocalTestingWithOllamaContainers {
         var chatModel = new OllamaChatModel(ollamaApi,
                 OllamaOptions.create()
                         .withModel(MODEL)
-                        .withTemperature(0.2f));
+                        .withTemperature(0.2));
 
         long start = System.currentTimeMillis();
         ChatResponse response = chatModel.call(

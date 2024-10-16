@@ -19,14 +19,14 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.ai.reader.TextReader;
-import org.springframework.ai.vertexai.embedding.VertexAiEmbeddigConnectionDetails;
+import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
 import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingOptions;
 
 public class TextEmbeddingExample {
   public static void main(String[] args) {
-    VertexAiEmbeddigConnectionDetails connectionDetails =
-        VertexAiEmbeddigConnectionDetails.builder()
+    VertexAiEmbeddingConnectionDetails connectionDetails =
+        VertexAiEmbeddingConnectionDetails.builder()
             .withProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
             .withLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
             .build();

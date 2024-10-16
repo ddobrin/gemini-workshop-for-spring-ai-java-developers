@@ -52,7 +52,7 @@ public class SummarizationExample {
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
             .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withTemperature(0.2f)
+            .withTemperature(0.2)
             .build());
 
     try{
@@ -96,7 +96,7 @@ public class SummarizationExample {
     long start = System.currentTimeMillis();
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
         VertexAiGeminiChatOptions.builder()
-            .withTemperature(0.2f)
+            .withTemperature(0.2)
             .build()));
 
     System.out.println("Gemini response - Stuffing Pattern: \n" + response.getResult().getOutput().getContent());
@@ -177,7 +177,7 @@ public class SummarizationExample {
 
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
         VertexAiGeminiChatOptions.builder()
-            .withTemperature(0.2f)
+            .withTemperature(0.2)
             .build()));
     System.out.println("Summarization (final summary) took " + (System.currentTimeMillis() - start) + " milliseconds");
     return response.getResult().getOutput().getContent();
@@ -234,7 +234,7 @@ public class SummarizationExample {
 
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
         VertexAiGeminiChatOptions.builder()
-            .withTemperature(0.2f)
+            .withTemperature(0.2)
             .build()));
     System.out.println("Summarization (single chunk) took " + (System.currentTimeMillis() - start) + " milliseconds");
     String output = response.getResult().getOutput().getContent();

@@ -23,7 +23,7 @@ import org.springframework.ai.embedding.DocumentEmbeddingRequest;
 import org.springframework.ai.embedding.EmbeddingOptionsBuilder;
 import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.ai.model.Media;
-import org.springframework.ai.vertexai.embedding.VertexAiEmbeddigConnectionDetails;
+import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.multimodal.VertexAiMultimodalEmbeddingModel;
 import org.springframework.ai.vertexai.embedding.multimodal.VertexAiMultimodalEmbeddingOptions;
 import org.springframework.core.io.ClassPathResource;
@@ -32,8 +32,8 @@ import org.springframework.util.MimeTypeUtils;
 
 public class MultimodalEmbeddingExample {
   public static void main(String[] args) {
-    VertexAiEmbeddigConnectionDetails connectionDetails =
-        VertexAiEmbeddigConnectionDetails.builder()
+    VertexAiEmbeddingConnectionDetails connectionDetails =
+        VertexAiEmbeddingConnectionDetails.builder()
             .withProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
             .withLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
             .build();

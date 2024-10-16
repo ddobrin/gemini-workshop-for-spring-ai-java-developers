@@ -127,7 +127,7 @@ public class StructuredOutputExample {
 		var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
 				VertexAiGeminiChatOptions.builder()
 						.withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-						.withTemperature(0.2f)
+						.withTemperature(0.2)
 						.build());
 
 		// convert response to a map

@@ -34,9 +34,9 @@ public class SimpleChatExample {
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
             .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withTemperature(0.8f)
-            .withTopK(40f)
-            .withTopP(0.95f)
+            .withTemperature(0.8)
+            .withTopK(5.0f)
+            .withTopP(0.95)
             .build());
 
     String prompt = "Recommend a great book to read during my vacation";
