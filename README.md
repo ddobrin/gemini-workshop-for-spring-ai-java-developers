@@ -169,7 +169,7 @@ Build the samples in a single JAR, then run them individually for the respective
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.SummarizationExample
     ```
 * Local environments
-  * [Running Open-models with Ollama and Testcontainers](src/main/java/gemini/workshop/LocalTestingWithOllamaContainers.java)
+  * [Running Open-models with Ollama and Testcontainers](src/main/java/gemini/workshop/LocalTestingWithOllamaContainers.java.unused)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.LocalTestingWithOllamaContainers
     ```
