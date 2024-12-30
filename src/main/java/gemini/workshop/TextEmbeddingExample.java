@@ -46,6 +46,6 @@ public class TextEmbeddingExample {
     EmbeddingResponse embeddingResponse = embeddingModel.embedForResponse(List.of(embedText));
     System.out.println("Embedding response: " + Arrays.toString(embeddingResponse.getResult().getOutput()));
     System.out.println(
-        "VertexAI call took " + (System.currentTimeMillis() - start) + " ms");
+        "Text embedding call took " + (System.currentTimeMillis() - start) + " ms");
   }
 }

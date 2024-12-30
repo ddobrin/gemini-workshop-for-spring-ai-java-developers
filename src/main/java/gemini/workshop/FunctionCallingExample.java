@@ -30,7 +30,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.model.function.FunctionCallbackWrapper;
-import org.springframework.ai.model.function.FunctionCallbackContext.SchemaType;
+import org.springframework.ai.model.function.FunctionCallback.SchemaType;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 

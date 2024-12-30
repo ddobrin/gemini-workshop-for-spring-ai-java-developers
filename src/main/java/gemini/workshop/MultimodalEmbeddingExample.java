@@ -45,13 +45,21 @@ public class MultimodalEmbeddingExample {
 
     var embeddingModel = new VertexAiMultimodalEmbeddingModel(connectionDetails, options);
 
-    Media imageMedial = new Media(MimeTypeUtils.IMAGE_PNG, new ClassPathResource("/Coffee.png"));
-    Media videoMedial = new Media(new MimeType("video", "mp4"), new ClassPathResource("/Birds.mp4"));
+    Media imageMedia = new Media(MimeTypeUtils.IMAGE_PNG, new ClassPathResource("/Coffee.png"));
+    Media videoMedia = new Media(new MimeType("video", "mp4"), new ClassPathResource("/Birds.mp4"));
 
-    var document = new Document("Explain what do you see on this video?", List.of(imageMedial, videoMedial), Map.of());
+    var textDocument = Document.builder()
+        .text("Explain what you see in this image and this video")
+        .build();
+    var imageDocument = Document.builder()
+        .media(imageMedia)
+        .build();
+    var videoDocument = Document.builder()
+        .media(videoMedia)
+        .build();
 
     // create a new Embedding Request
-    DocumentEmbeddingRequest embeddingRequest = new DocumentEmbeddingRequest(List.of(document),
+    DocumentEmbeddingRequest embeddingRequest = new DocumentEmbeddingRequest(List.of(textDocument, imageDocument, videoDocument),
         EmbeddingOptionsBuilder.builder().build());
 
     // call the embedding model

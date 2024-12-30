@@ -43,11 +43,11 @@ public class GroundingWithWebsearchSpringAIExample {
     // enable or disable Web Search with Google in the ChatOptions
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
-            .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withTemperature(0.8)
-            .withTopK(5.0f)
-            .withTopP(0.95)
-            .withGoogleSearchRetrieval(useWebSearch)
+            .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+            .temperature(0.2)
+            .topK(5)
+            .topP(0.95)
+            .googleSearchRetrieval(useWebSearch)
             .build());
 
     String prompt = "Which country won most medals at the Paris 2024 Olympics";

@@ -39,10 +39,10 @@ public class WorkingWithTemplatesExample {
 
     var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
         VertexAiGeminiChatOptions.builder()
-            .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withTemperature(0.8)
-            .withTopK(5.0f)
-            .withTopP(0.95)
+            .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+            .temperature(0.2)
+            .topK(5)
+            .topP(0.95)
             .build());
 
     //-------------------------------------------
