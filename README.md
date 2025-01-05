@@ -20,8 +20,8 @@ Before running the examples, you'll need to set up three environment variables:
 
 ```bash
 export VERTEX_AI_GEMINI_PROJECT_ID=<your-project-id>
-export VERTEX_AI_GEMINI_LOCATION=us-central1
-export VERTEX_AI_GEMINI_MODEL=gemini-1.5-pro-001
+export VERTEX_AI_GEMINI_LOCATION=<your region>, ex: us-central1
+export VERTEX_AI_GEMINI_MODEL=<model>, ex: gemini-2.0-flash-exp
 
 # Note: you can test in another region or using the gemini-1.5-flash-001 model
 ```
