@@ -93,7 +93,7 @@ public class FunctionCallingExample {
     // as a function
     FunctionToolCallback fnWrapper = FunctionToolCallback.builder("bookStoreAvailability", new BookStoreService())
         .description("Get availability of a book in the bookstore")
-        .inputSchema(SchemaType.OPEN_API_SCHEMA.name())
+        .inputType(BookStoreService.Request.class)
         .build();
 
     var geminiChatModel = VertexAiGeminiChatModel.builder()
