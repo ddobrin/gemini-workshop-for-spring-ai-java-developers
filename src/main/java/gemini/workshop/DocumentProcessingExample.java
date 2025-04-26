@@ -29,7 +29,7 @@ public class DocumentProcessingExample {
   public static void main(String[] args) {
     // read Text in txt format
     TextReader textReader = new TextReader("classpath:/the-jungle-book.txt");
-    String bookText = textReader.get().getFirst().getContent();
+    String bookText = textReader.get().getFirst().getText();
     System.out.printf("Read book %s with length %d, CharSet %s\nExcerpt: %s ...\n\n\n",
         textReader.getCustomMetadata().get(TextReader.SOURCE_METADATA),
         bookText.length(),
@@ -47,8 +47,8 @@ public class DocumentProcessingExample {
     List<Document> documents = jsonReader.read();
     for(Document document : documents)
       System.out.printf("Read JSON document %s with length %d\n",
-          document.getContent(),
-          document.getContent().length());
+          document.getText(),
+          document.getText().length());
 
     // Read PDF documents
     //--------------------
@@ -63,8 +63,8 @@ public class DocumentProcessingExample {
     List<Document> pdfDocument = pdfReader.read();
     for(Document document : pdfDocument)
       System.out.printf("Read PDF document %s ... with length %d\n",
-          document.getContent().trim().substring(0, 50),
-          document.getContent().length());
+          document.getText().trim().substring(0, 50),
+          document.getText().length());
 
 
     //Test splitting into chunks
@@ -85,8 +85,8 @@ public class DocumentProcessingExample {
     System.out.println("Chunks size: " + chunks.size());
     for(Document chunk : chunks)
       System.out.printf("Read text document %s ... with length %d\n",
-          chunk.getContent().substring(0, 25),
-          chunk.getContent().length());
+          chunk.getText().substring(0, 25),
+          chunk.getText().length());
 
   }
 }

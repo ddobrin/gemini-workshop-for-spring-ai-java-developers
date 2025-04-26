@@ -37,13 +37,15 @@ public class WorkingWithTemplatesExample {
         .setTransport(Transport.REST)
         .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
             .topP(0.95)
-            .build());
+            .build())
+        .build();
 
     //-------------------------------------------
     // option1 : templates directly as strings
@@ -70,7 +72,7 @@ public class WorkingWithTemplatesExample {
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(List.of(userMessage, systemMessage)))
-        .getResult().getOutput().getContent());
+        .getResult().getOutput().getText());
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 

@@ -27,20 +27,20 @@ public class TextEmbeddingExample {
   public static void main(String[] args) {
     VertexAiEmbeddingConnectionDetails connectionDetails =
         VertexAiEmbeddingConnectionDetails.builder()
-            .withProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-            .withLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+            .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+            .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
             .build();
 
     // Default embedding model: text-embedding-004
     VertexAiTextEmbeddingOptions options = VertexAiTextEmbeddingOptions.builder()
-        .withModel(VertexAiTextEmbeddingOptions.DEFAULT_MODEL_NAME)
+        .model(VertexAiTextEmbeddingOptions.DEFAULT_MODEL_NAME)
         .build();
 
     var embeddingModel = new VertexAiTextEmbeddingModel(connectionDetails, options);
 
     // read the book to generate embeddings for
     TextReader reader = new TextReader("classpath:/the-jungle-book.txt");
-    String embedText = reader.get().getFirst().getContent();
+    String embedText = reader.get().getFirst().getText();
 
     long start = System.currentTimeMillis();
     EmbeddingResponse embeddingResponse = embeddingModel.embedForResponse(List.of(embedText));

@@ -18,11 +18,11 @@ package gemini.workshop;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.springframework.ai.content.Media;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.DocumentEmbeddingRequest;
 import org.springframework.ai.embedding.EmbeddingOptionsBuilder;
 import org.springframework.ai.embedding.EmbeddingResponse;
-import org.springframework.ai.model.Media;
 import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.multimodal.VertexAiMultimodalEmbeddingModel;
 import org.springframework.ai.vertexai.embedding.multimodal.VertexAiMultimodalEmbeddingOptions;
@@ -34,13 +34,13 @@ public class MultimodalEmbeddingExample {
   public static void main(String[] args) {
     VertexAiEmbeddingConnectionDetails connectionDetails =
         VertexAiEmbeddingConnectionDetails.builder()
-            .withProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-            .withLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+            .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+            .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
             .build();
 
     // default multimodal embedding model multimodalembedding@001
     VertexAiMultimodalEmbeddingOptions options = VertexAiMultimodalEmbeddingOptions.builder()
-        .withModel("multimodalembedding")
+        .model("multimodalembedding")
         .build();
 
     var embeddingModel = new VertexAiMultimodalEmbeddingModel(connectionDetails, options);

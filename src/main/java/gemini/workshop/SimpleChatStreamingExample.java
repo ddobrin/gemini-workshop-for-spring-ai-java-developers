@@ -31,11 +31,13 @@ public class SimpleChatStreamingExample {
             .setTransport(Transport.REST)
             .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
-            .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withTemperature(0.2)
-            .build());
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
+            .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+            .temperature(0.2)
+            .build())
+        .build();
 
     String prompt = "Recommend five great fiction books to read during my vacation, while travelling around Europe";
 

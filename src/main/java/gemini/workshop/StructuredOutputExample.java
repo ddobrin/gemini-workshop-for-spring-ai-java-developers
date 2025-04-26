@@ -50,10 +50,10 @@ public class StructuredOutputExample {
 		long start = System.currentTimeMillis();
 		Generation generation = chatClient.call(prompt).getResult();
 
-		Map<String, Object> result = mapOutputConverter.convert(generation.getOutput().getContent());
+		Map<String, Object> result = mapOutputConverter.convert(generation.getOutput().getText());
 
 		System.out.println("Prompt for MapConverter test:" + prompt.getContents());
-		System.out.println("Format this response to a map: " + generation.getOutput().getContent());
+		System.out.println("Format this response to a map: " + generation.getOutput().getText());
 		System.out.println("Formatted response: " + result);
 		System.out.println(
 				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
@@ -77,10 +77,10 @@ public class StructuredOutputExample {
 		long start = System.currentTimeMillis();
 		Generation generation = chatClient.call(prompt).getResult();
 
-		List<String> list = listOutputConverter.convert(generation.getOutput().getContent());
+		List<String> list = listOutputConverter.convert(generation.getOutput().getText());
 
 		System.out.println("Prompt for ListConverter test:" + prompt.getContents());
-		System.out.println("Format this response to a List: " + generation.getOutput().getContent());
+		System.out.println("Format this response to a List: " + generation.getOutput().getText());
 		System.out.println("Formatted response: " + list);
 		System.out.println(
 				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
@@ -108,7 +108,7 @@ public class StructuredOutputExample {
 				.getResult();
 
 		System.out.println("Prompt for BeanConverter test:" + prompt.getContents());
-		String content = generation.getOutput().getContent();
+		String content = generation.getOutput().getText();
 		System.out.println("Format this response to a Bean: " + content);
 
 		BooksAuthor writerBooks = beanOutputConverter.convert(content);
@@ -124,11 +124,15 @@ public class StructuredOutputExample {
 					.setTransport(Transport.REST)
 					.build();
 
-		var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-				VertexAiGeminiChatOptions.builder()
-						.withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-						.withTemperature(0.2)
-						.build());
+		var geminiChatModel = VertexAiGeminiChatModel.builder()
+				.vertexAI(vertexAI)
+				.defaultOptions(VertexAiGeminiChatOptions.builder()
+						.model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+						.temperature(0.2)
+						.topK(5)
+						.topP(0.95)
+						.build())
+				.build();
 
 		// convert response to a map
 		mapOutputConverter(geminiChatModel);

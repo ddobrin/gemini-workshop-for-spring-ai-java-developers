@@ -49,11 +49,13 @@ public class SummarizationExample {
         .setTransport(Transport.REST)
         .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
-            .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withTemperature(0.2)
-            .build());
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
+            .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+            .temperature(0.2)
+            .build())
+        .build();
 
     try{
       // summarization using the Stuffing pattern
@@ -69,7 +71,7 @@ public class SummarizationExample {
   private static void summarizationStuffing(VertexAiGeminiChatModel geminiChatModel) throws IOException {
     // read book
     TextReader textReader = new TextReader("classpath:/The-Wasteland-TSEliot-public.txt");
-    String bookText = textReader.get().getFirst().getContent();
+    String bookText = textReader.get().getFirst().getText();
 
     // create system message template
     SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate("""
@@ -96,10 +98,10 @@ public class SummarizationExample {
     long start = System.currentTimeMillis();
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
         VertexAiGeminiChatOptions.builder()
-            .withTemperature(0.2)
+            .temperature(0.2)
             .build()));
 
-    System.out.println("Gemini response - Stuffing Pattern: \n" + response.getResult().getOutput().getContent());
+    System.out.println("Gemini response - Stuffing Pattern: \n" + response.getResult().getOutput().getText());
     System.out.print("Summarization (stuffing test) took " + (System.currentTimeMillis() - start) + " milliseconds");
   }
 
@@ -107,7 +109,7 @@ public class SummarizationExample {
       throws ExecutionException, InterruptedException {
     // read book
     TextReader textReader = new TextReader("classpath:/The-Wasteland-TSEliot-public.txt");
-    String bookText = textReader.get().getFirst().getContent();
+    String bookText = textReader.get().getFirst().getText();
 
     // create system message template
     SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate("""
@@ -177,10 +179,10 @@ public class SummarizationExample {
 
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
         VertexAiGeminiChatOptions.builder()
-            .withTemperature(0.2)
+            .temperature(0.2)
             .build()));
     System.out.println("Summarization (final summary) took " + (System.currentTimeMillis() - start) + " milliseconds");
-    return response.getResult().getOutput().getContent();
+    return response.getResult().getOutput().getText();
   }
 
   private static Map<Integer, String> processChunk(
@@ -234,10 +236,10 @@ public class SummarizationExample {
 
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
         VertexAiGeminiChatOptions.builder()
-            .withTemperature(0.2)
+            .temperature(0.2)
             .build()));
     System.out.println("Summarization (single chunk) took " + (System.currentTimeMillis() - start) + " milliseconds");
-    String output = response.getResult().getOutput().getContent();
+    String output = response.getResult().getOutput().getText();
     System.out.println(output+"\n\n");
     return output;
   }

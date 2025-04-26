@@ -45,17 +45,19 @@ public class RAGExample {
         .setTransport(Transport.REST)
         .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
             .topP(0.95)
-            .build());
+            .build())
+        .build();
 
     // read Text in txt format
     TextReader textReader = new TextReader("classpath:/the-jungle-book.txt");
-    String bookText = textReader.get().getFirst().getContent();
+    String bookText = textReader.get().getFirst().getText();
     System.out.printf("Read book %s with length %d, CharSet %s\nExcerpt: %s ...\n\n\n",
         textReader.getCustomMetadata().get(TextReader.SOURCE_METADATA),
         bookText.length(),
@@ -81,18 +83,18 @@ public class RAGExample {
     System.out.println("Chunks size: " + chunks.size());
     for(Document chunk : chunks)
       System.out.printf("Read text document %s ... with length %d\n",
-          chunk.getContent().substring(0, 25),
-          chunk.getContent().length());
+          chunk.getText().substring(0, 25),
+          chunk.getText().length());
 
     VertexAiEmbeddingConnectionDetails connectionDetails =
         VertexAiEmbeddingConnectionDetails.builder()
-            .withProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-            .withLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+            .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+            .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
             .build();
 
     // Default embedding model: text-embedding-004
     VertexAiTextEmbeddingOptions options = VertexAiTextEmbeddingOptions.builder()
-        .withModel(VertexAiTextEmbeddingOptions.DEFAULT_MODEL_NAME)
+        .model(VertexAiTextEmbeddingOptions.DEFAULT_MODEL_NAME)
         .build();
 
     EmbeddingModel embeddingModel = new VertexAiTextEmbeddingModel(connectionDetails, options);
@@ -100,7 +102,7 @@ public class RAGExample {
     // create a simple (in memory) vector store, good for education purposes
     // for production usage, here's the available list of VectorStore implementations
     // https://docs.spring.io/spring-ai/reference/api/vectordbs.html
-    VectorStore vectorStore = new SimpleVectorStore(embeddingModel);
+    VectorStore vectorStore = SimpleVectorStore.builder(embeddingModel).build();
     vectorStore.add(chunks);
 
 
@@ -109,8 +111,9 @@ public class RAGExample {
     String message = String.format("Find the paragraphs mentioning keywords in the following list: {%s} in the book.",
                 keywords);
 
-    List<Document> similarDocuments = vectorStore.similaritySearch(SearchRequest.query(message).withTopK(5));
-    String content = similarDocuments.stream().map(Document::getContent).collect(Collectors.joining(System.lineSeparator()));
+    List<Document> similarDocuments = vectorStore.similaritySearch(
+        SearchRequest.builder().query(message).topK(5).build());
+    String content = similarDocuments.stream().map(Document::getText).collect(Collectors.joining(System.lineSeparator()));
     System.out.println("SearchRequest in vector store with the query string: " + message);
     System.out.println("Vector search has found " + similarDocuments.size() + " documents");
 
@@ -142,7 +145,7 @@ public class RAGExample {
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(List.of(userMessage, systemMessage)))
-        .getResult().getOutput().getContent());
+        .getResult().getOutput().getText());
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }

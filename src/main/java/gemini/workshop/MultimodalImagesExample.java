@@ -24,7 +24,7 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
-import org.springframework.ai.model.Media;
+import org.springframework.ai.content.Media;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 import org.springframework.core.io.ClassPathResource;
@@ -40,13 +40,15 @@ public class MultimodalImagesExample {
         .setTransport(Transport.REST)
         .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
             .topP(0.95)
-            .build());
+            .build())
+        .build();
 
     // create system message template
     SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate("""
@@ -75,7 +77,7 @@ public class MultimodalImagesExample {
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(List.of(userMessage, systemMessage)))
-        .getResult().getOutput().getContent());
+        .getResult().getOutput().getText());
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }

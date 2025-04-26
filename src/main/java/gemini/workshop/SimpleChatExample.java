@@ -31,13 +31,15 @@ public class SimpleChatExample {
         .setTransport(Transport.REST)
         .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
             .topP(0.95)
-            .build());
+            .build())
+        .build();
 
     String prompt = "Recommend a great book to read during my vacation";
 
@@ -45,7 +47,7 @@ public class SimpleChatExample {
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(prompt))
-        .getResult().getOutput().getContent());
+        .getResult().getOutput().getText());
     System.out.println(
         "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }

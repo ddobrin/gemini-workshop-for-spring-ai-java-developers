@@ -29,8 +29,8 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
-import org.springframework.ai.model.function.FunctionCallbackWrapper;
-import org.springframework.ai.model.function.FunctionCallback.SchemaType;
+import org.springframework.ai.tool.function.FunctionToolCallback;
+import org.springframework.ai.util.json.schema.SchemaType;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
 import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 
@@ -91,34 +91,24 @@ public class FunctionCallingExample {
 
     // build a FunctionCallbackWrapper to regisater the BookStoreService
     // as a function
-    FunctionCallbackWrapper fnWrapper = FunctionCallbackWrapper.builder(new BookStoreService())
-        .withName("bookStoreAvailability")
-        .withDescription("Get availability of a book in the bookstore")
-        .withSchemaType(SchemaType.OPEN_API_SCHEMA)
+    FunctionToolCallback fnWrapper = FunctionToolCallback.builder("bookStoreAvailability", new BookStoreService())
+        .description("Get availability of a book in the bookstore")
+        .inputSchema(SchemaType.OPEN_API_SCHEMA.name())
         .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
-            .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .withFunctionCallbacks(List.of(fnWrapper))
-            .withFunction("bookStoreAvailability")
-            .build());
-
-    // Alternatively:
-    // var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-    //     VertexAiGeminiChatOptions.builder()
-    //         .withModel(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-    //         .withFunction("bookStoreAvailability")
-    //         .withFunctionCallbacks(List.of(FunctionCallbackWrapper.builder(new BookStoreService())
-    //             .withName("bookStoreAvailability")
-    //             .withDescription("Get the availability of a book in the bookstore")
-    //             .build()))
-    //         .build());
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
+            .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+            .temperature(0.2)
+            .toolCallbacks(List.of(fnWrapper))
+            .build())
+        .build();
 
     long start = System.currentTimeMillis();
     System.out.println("GEMINI: " + geminiChatModel
         .call(new Prompt(List.of(userMessage, systemMessage)))
-        .getResult().getOutput().getContent());
+        .getResult().getOutput().getText());
     System.out.println(
         "VertexAI Gemini call with FunctionCalling took " + (System.currentTimeMillis() - start) + " ms");
   }

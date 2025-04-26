@@ -41,26 +41,28 @@ public class GroundingWithWebsearchSpringAIExample {
 
   private static void askModel(VertexAI vertexAI, String modelType, boolean useWebSearch) {
     // enable or disable Web Search with Google in the ChatOptions
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
             .topP(0.95)
             .googleSearchRetrieval(useWebSearch)
-            .build());
+            .build())
+        .build();
 
     String prompt = "Which country won most medals at the Paris 2024 Olympics";
     // Spring AI issue - fixed  in upcoming release
     // Websearch flag must be set in a Prompt object creation
     // currently, setting it in the ChatOptions won't copy the flag in the prompt
-    Prompt promptObject = new Prompt(prompt, VertexAiGeminiChatOptions.builder().withGoogleSearchRetrieval(useWebSearch).build());
+    Prompt promptObject = new Prompt(prompt, VertexAiGeminiChatOptions.builder().googleSearchRetrieval(useWebSearch).build());
 
     long start = System.currentTimeMillis();
     System.out.println("Model type: " + modelType);
     ChatResponse chatResponse = geminiChatModel.call(promptObject);
 
-    System.out.println("GEMINI: " + chatResponse.getResult().getOutput().getContent());
+    System.out.println("GEMINI: " + chatResponse.getResult().getOutput().getText());
     System.out.println(
         "VertexAI " + modelType + " Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }

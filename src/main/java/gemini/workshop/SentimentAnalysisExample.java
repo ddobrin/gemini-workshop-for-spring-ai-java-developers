@@ -39,13 +39,15 @@ public class SentimentAnalysisExample {
         .setTransport(Transport.REST)
         .build();
 
-    var geminiChatModel = new VertexAiGeminiChatModel(vertexAI,
-        VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = VertexAiGeminiChatModel.builder()
+        .vertexAI(vertexAI)
+        .defaultOptions(VertexAiGeminiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
-            .temperature(0.8)
+            .temperature(0.2)
             .topK(5)
             .topP(0.95)
-            .build());
+            .build())
+        .build();
 
     // Build Few-shot history
     List<Message> messages = List.of(
