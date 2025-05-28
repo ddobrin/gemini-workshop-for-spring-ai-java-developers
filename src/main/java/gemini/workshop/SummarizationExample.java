@@ -87,11 +87,13 @@ public class SummarizationExample {
       String title = "", author = "";
 
     // create user message template
-    PromptTemplate userPromptTemplate = new PromptTemplate("""
+    PromptTemplate userPromptTemplate = PromptTemplate.builder().template("""
             Please provide a concise summary covering the key points of the book {title} by {author}.
             If you do not have the information, use Google web search to ground your answer.
             Do not make information up
-        """, Map.of("title", title, "author", author));
+        """)
+        .variables(Map.of("title", title, "author", author))
+        .build();
     Message userMessage = userPromptTemplate.createMessage();
 
     // summarize document by stuffing the prompt with the content of the document
@@ -168,13 +170,14 @@ public class SummarizationExample {
     System.out.println(context+"\n\n");
 
     // create user message template
-    PromptTemplate userPromptTemplate = new PromptTemplate("""
+    PromptTemplate userPromptTemplate = PromptTemplate.builder().template("""
       Strictly please give me a summary with an introduction, three one sentence bullet points, and a conclusion from the following text delimited by triple backquotes.
       
       ```Text:{content}```
 
       Output starts with SUMMARY:
-      """, Map.of("content", context));
+      """).variables(Map.of("content", context))
+        .build();
     Message userMessage = userPromptTemplate.createMessage();
 
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
@@ -228,9 +231,15 @@ public class SummarizationExample {
         """;
 
     if(context.trim().isEmpty()) {
-      userPromptTemplate = new PromptTemplate(subSummaryOverlapTemplate, Map.of("content", chunk));
+      userPromptTemplate = PromptTemplate.builder()
+          .template(subSummaryOverlapTemplate)
+          .variables(Map.of("content", chunk))
+          .build();
     } else {
-      userPromptTemplate = new PromptTemplate(subSummaryResource, Map.of("context", context, "content", chunk));
+      userPromptTemplate = PromptTemplate.builder()
+          .template(subSummaryResource)
+          .variables(Map.of("context", context, "content", chunk))
+          .build();
     }
     Message userMessage = userPromptTemplate.createMessage();
 

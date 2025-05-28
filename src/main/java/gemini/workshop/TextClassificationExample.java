@@ -21,7 +21,9 @@ import java.util.List;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
+import org.springframework.ai.chat.memory.ChatMemoryRepository;
+import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
@@ -106,7 +108,8 @@ public class TextClassificationExample {
         """;
 
     // create the memory for the few-shot history
-    ChatMemory chatMemory = new InMemoryChatMemory();
+    // chatMemory.add("examples", messages);
+    ChatMemory chatMemory = MessageWindowChatMemory.builder().build();
     chatMemory.add("examples", messages);
 
     // use the fluent ChatClient interface and provision chat history
@@ -118,7 +121,7 @@ public class TextClassificationExample {
             .build()
         .prompt()
         .system(systemMessage)
-        .advisors(new MessageChatMemoryAdvisor(chatMemory))
+        .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
         .user("In which category would The Jungle Book by Rudyard Kipling fit best?")
         .call()
         .content();

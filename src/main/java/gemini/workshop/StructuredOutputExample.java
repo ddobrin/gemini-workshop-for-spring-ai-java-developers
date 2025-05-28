@@ -43,8 +43,10 @@ public class StructuredOutputExample {
 				Provide me a quote from a random book, including only {subject}
 				{format}
 				""";
-		PromptTemplate promptTemplate = new PromptTemplate(template,
-				Map.of("subject", "book, author and quote", "format", format));
+		PromptTemplate promptTemplate = PromptTemplate.builder()
+				.template(template)
+				.variables(Map.of("subject", "book, author and quote", "format", format))
+				.build();
 		Prompt prompt = new Prompt(promptTemplate.createMessage());
 
 		long start = System.currentTimeMillis();
@@ -70,8 +72,10 @@ public class StructuredOutputExample {
 				List the top ten {subject}
 				{format}
 				""";
-		PromptTemplate promptTemplate = new PromptTemplate(template,
-				Map.of("subject", "important fiction books I should read in my lifetime, with book and author", "format", format));
+		PromptTemplate promptTemplate = PromptTemplate.builder()
+				.template(template)
+				.variables(Map.of("subject", "important fiction books I should read in my lifetime, with book and author", "format", format))
+				.build();
 		Prompt prompt = new Prompt(promptTemplate.createMessage());
 
 		long start = System.currentTimeMillis();
@@ -100,8 +104,10 @@ public class StructuredOutputExample {
 				{format}
 				""";
 
-		Prompt prompt = new Prompt(
-				new PromptTemplate(template, Map.of("writer", writer, "format", format)).createMessage());
+		Prompt prompt = new Prompt(PromptTemplate.builder().template(template)
+				.variables(Map.of("writer", writer, "format", format))
+				.build()
+				.createMessage());
 
 		long start = System.currentTimeMillis();
 		Generation generation = chatClient.call(prompt)

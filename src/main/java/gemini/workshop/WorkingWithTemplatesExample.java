@@ -63,10 +63,12 @@ public class WorkingWithTemplatesExample {
         Map.of("name", "Professor Gemini", "voice", "literary professor"));
 
     // create user message template
-    PromptTemplate userPromptTemplate = new PromptTemplate("""
+    PromptTemplate userPromptTemplate = PromptTemplate.builder().template("""
         Please recommend no more than {number} great {genre} book to read during my vacation.
         Return to me strictly the name and author
-        """, Map.of("number", "4", "genre", "fiction"));
+        """)
+    .variables(Map.of("number", "4", "genre", "fiction"))
+    .build();
     Message userMessage = userPromptTemplate.createMessage();
 
     long start = System.currentTimeMillis();

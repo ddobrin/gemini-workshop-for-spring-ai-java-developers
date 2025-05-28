@@ -22,7 +22,7 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
@@ -107,7 +107,7 @@ public class SentimentAnalysisExample {
         """;
 
     // create the memory for the few-shot history
-    ChatMemory chatMemory = new InMemoryChatMemory();
+    ChatMemory chatMemory =  MessageWindowChatMemory.builder().build();
     chatMemory.add("examples", messages);
 
     // use the fluent ChatClient interface and provision chat history
@@ -119,7 +119,7 @@ public class SentimentAnalysisExample {
             .build()
         .prompt()
         .system(systemMessage)
-        .advisors(new SimpleLoggerAdvisor(), new MessageChatMemoryAdvisor(chatMemory))
+        .advisors(new SimpleLoggerAdvisor(), MessageChatMemoryAdvisor.builder(chatMemory).build())
         .user("""
             In which category does the jungle book by Rudyard Kipling fit in best? 
             What is the name of the main character? 

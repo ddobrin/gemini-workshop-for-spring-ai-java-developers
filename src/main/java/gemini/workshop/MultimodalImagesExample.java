@@ -69,9 +69,10 @@ public class MultimodalImagesExample {
       Extract the title and author from the image, strictly in JSON format.
       Add a description of the image to the JSON response
       """;
-    Message userMessage = new UserMessage(
-        userPrompt,
-        List.of(new Media(MimeTypeUtils.IMAGE_JPEG, imageData)));
+    Message userMessage = UserMessage.builder()
+        .text(userPrompt)
+        .media(List.of(new Media(MimeTypeUtils.IMAGE_JPEG, imageData)))
+        .build();
 
     // send the image to Gemini for multimodal analysis
     long start = System.currentTimeMillis();

@@ -80,13 +80,15 @@ public class FunctionCallingExample {
     Message systemMessage = systemPromptTemplate.createMessage();
 
     // create user message template
-    PromptTemplate userPromptTemplate = new PromptTemplate("""
+    PromptTemplate userPromptTemplate = PromptTemplate.builder().template("""
         Write a nice note including book author, book title and availability.
         Find out if the book with the title {title} by author {author} is available in the bookstore.
         Please add also this book summary to the response, with the text available after the column, prefix it with My Book Summary:  {summary}"
-        """, Map.of("title", "The Jungle Book",
+        """)
+        .variables(Map.of("title", "The Jungle Book",
                     "author", "Rudyard Kipling",
-                    "summary", "This is the Jungle Book summary"));
+                    "summary", "This is the Jungle Book summary"))
+        .build();
     Message userMessage = userPromptTemplate.createMessage();
 
     // build a FunctionCallbackWrapper to regisater the BookStoreService
