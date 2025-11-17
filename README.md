@@ -21,14 +21,21 @@ The code examples have been tested on the following environment:
 
 In order to run these examples, you need to have a Google Cloud account and project ready.
 
-Before running the examples, you'll need to set up three environment variables:
+Before running the examples, you'll need to set up environment variables, for either Google credentials or [get an API Key from Google AI Studio](https://aistudio.google.com/welcome):
 
 ```bash
-export VERTEX_AI_GEMINI_PROJECT_ID=<your-project-id>
-export VERTEX_AI_GEMINI_LOCATION=<your region>, ex: us-central1
-export VERTEX_AI_GEMINI_MODEL=<model>, ex: gemini-2.0-flash-exp
+Credentials: 
+  Google creds set:
+    export VERTEX_AI_GEMINI_PROJECT_ID=<your-project-id>
+    export VERTEX_AI_GEMINI_LOCATION=<your region>, ex: us-central1
+    export USE_VERTEX_AI=true
 
-# Note: you can test in another region or using the gemini-1.5-flash-001 model
+  Google API Key:
+    export GOOGLE_API_KEY=...
+    export USE_VERTEX_AI=false
+
+Model:     
+  export VERTEX_AI_GEMINI_MODEL=<model>, ex: gemini-2.5-flash
 ```
 
 > [!IMPORTANT]
