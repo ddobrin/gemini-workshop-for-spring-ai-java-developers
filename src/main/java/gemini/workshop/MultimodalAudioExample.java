@@ -15,60 +15,62 @@
  */
 package gemini.workshop;
 
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
-import com.google.cloud.vertexai.api.GenerateContentResponse;
-import com.google.cloud.vertexai.generativeai.ContentMaker;
-import com.google.cloud.vertexai.generativeai.GenerativeModel;
-import com.google.cloud.vertexai.api.GenerationConfig;
-import com.google.protobuf.ByteString;
+import com.google.genai.Client;
+import com.google.genai.types.Content;
+import com.google.genai.types.GenerateContentConfig;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.Part;
 import java.io.IOException;
+import java.util.Arrays;
 import org.springframework.core.io.ClassPathResource;
-import com.google.cloud.vertexai.generativeai.PartMaker;
-import com.google.cloud.vertexai.generativeai.ResponseHandler;
 
 public class MultimodalAudioExample {
 
   public static void main(String[] args) throws IOException {
 
-    // Initialize the Vertex client that will be used to send requests.
-    try (VertexAI vertexAI = new VertexAI.Builder()
-        .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setTransport(Transport.REST)
-        .build()) {
-
-        // Read the MP3 file from the classpath
-        ClassPathResource audioUri = new ClassPathResource("/Aesop-fables-Vol01.mp3");
-
-        // Read the MP3 file as a byte array
-        byte[] audioBytes = audioUri.getInputStream().readAllBytes();
-
-        // Create a ByteString from the byte array
-        ByteString audioByteString = ByteString.copyFrom(audioBytes);
-
-        GenerativeModel model = new GenerativeModel(
-            System.getenv("VERTEX_AI_GEMINI_MODEL"),
-            vertexAI);
-
-        // Create a GenerationConfig object and set the temperature to 0 for max accuracy
-        GenerationConfig generationOptions = GenerationConfig.newBuilder()
-            .setTemperature(0)
-            .build();
-        // add the configuration to the model object
-        model.withGenerationConfig(generationOptions);
-
-        long start = System.currentTimeMillis();
-        GenerateContentResponse response = model.generateContent(
-            ContentMaker.fromMultiModalData(
-                "Please transcribe this audiobook with utmost accuracy",
-                PartMaker.fromMimeTypeAndData("audio/mp3", audioByteString)
-            ));
-
-      String output = ResponseHandler.getText(response);
-      System.out.println(output);
-      System.out.println(
-          "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
     }
+
+    // Read the MP3 file from the classpath
+    ClassPathResource audioUri = new ClassPathResource("/Aesop-fables-Vol01.mp3");
+
+    // Read the MP3 file as a byte array
+    byte[] audioBytes = audioUri.getInputStream().readAllBytes();
+
+    // Create a GenerationConfig object and set the temperature to 0 for max accuracy
+    GenerateContentConfig generationOptions = GenerateContentConfig.builder()
+        .temperature(0.0f)
+        .build();
+
+    long start = System.currentTimeMillis();
+    
+    Content content = Content.builder()
+        .parts(Arrays.asList(
+            Part.builder().text("Please transcribe this audiobook with utmost accuracy").build(),
+            Part.fromBytes(audioBytes, "audio/mp3")
+        ))
+        .build();
+
+    GenerateContentResponse response = client.models.generateContent(
+        System.getenv("VERTEX_AI_GEMINI_MODEL"),
+        content,
+        generationOptions
+    );
+
+    String output = response.text();
+    System.out.println(output);
+    System.out.println(
+        "Google GenAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }
 }

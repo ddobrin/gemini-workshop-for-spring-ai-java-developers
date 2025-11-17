@@ -15,14 +15,13 @@
  */
 package gemini.workshop;
 
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
-import com.google.cloud.vertexai.api.GenerateContentResponse;
-import com.google.cloud.vertexai.api.GoogleSearchRetrieval;
-import com.google.cloud.vertexai.api.GroundingMetadata;
-import com.google.cloud.vertexai.api.Tool;
-import com.google.cloud.vertexai.generativeai.GenerativeModel;
-import com.google.cloud.vertexai.generativeai.ResponseHandler;
+import com.google.genai.Client;
+import com.google.genai.types.Content;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.GoogleSearch;
+import com.google.genai.types.Part;
+import com.google.genai.types.Tool;
+import com.google.genai.types.GenerateContentConfig;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Optional;
@@ -31,52 +30,62 @@ public class GroundingWithWebsearchExample {
 
   public static void main(String[] args) throws IOException {
 
-    // Initialize the Vertex client that will be used to send requests.
-    try (VertexAI vertexAI = new VertexAI.Builder()
-        .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setTransport(Transport.REST)
-        .build()) {
-
-      // Enable using the result from this tool in detecting grounding
-      Tool googleSearchTool =
-          Tool.newBuilder()
-              .setGoogleSearchRetrieval(GoogleSearchRetrieval.newBuilder())
-              .build();
-
-      //--- create 2 models, one with grounding enabled and one without
-      GenerativeModel nonGroundedModel = new GenerativeModel(
-          System.getenv("VERTEX_AI_GEMINI_MODEL"),
-          vertexAI);
-
-      GenerativeModel groundedModel = new GenerativeModel(
-          System.getenv("VERTEX_AI_GEMINI_MODEL"),
-          vertexAI)
-          .withTools(Collections.singletonList(googleSearchTool));
-
-      String prompt = "Which country won most medals at the Paris 2024 Olympics";
-
-      // call the 2 models
-      // observe that the non-grounded call can't provide the requested info
-      askModel(nonGroundedModel, "Non-grounded model search:", prompt);
-      // grounded call can provide the requested info
-      askModel(groundedModel, "Model grounded with web search:", prompt);
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
     }
+
+    // Enable using the result from this tool in detecting grounding
+    Tool googleSearchTool = Tool.builder()
+        .googleSearch(GoogleSearch.builder().build())
+        .build();
+
+    String modelName = System.getenv("VERTEX_AI_GEMINI_MODEL");
+    String prompt = "Which country won most medals at the Paris 2024 Olympics";
+
+    // call the 2 models
+    // observe that the non-grounded call can't provide the requested info
+    askModel(client, modelName, "Non-grounded model search:", prompt, null);
+    // grounded call can provide the requested info
+    askModel(client, modelName, "Model grounded with web search:", prompt, googleSearchTool);
   }
 
   // Call model with Google Websearch enabled|disabled
-  private static void askModel(GenerativeModel model, String modelType, String prompt) throws IOException {
+  private static void askModel(Client client, String modelName, String modelType, String prompt, Tool tool) throws IOException {
     long start = System.currentTimeMillis();
-    GenerateContentResponse response = model.generateContent(prompt);
-    GroundingMetadata groundingMetadata = response.getCandidates(0).getGroundingMetadata();
+    
+    GenerateContentConfig.Builder configBuilder = GenerateContentConfig.builder();
+    if (tool != null) {
+        configBuilder.tools(Collections.singletonList(tool));
+    }
+    
+    GenerateContentResponse response = client.models.generateContent(
+        modelName,
+        Content.builder().parts(Collections.singletonList(Part.builder().text(prompt).build())).build(),
+        configBuilder.build()
+    );
 
-    String output = ResponseHandler.getText(response);
+    String output = response.text();
     System.out.println(modelType);
     System.out.println("Response: " + output.trim());
-    Optional.ofNullable(groundingMetadata.toString())
-        .filter(s -> !s.isEmpty())
-        .ifPresent(s -> System.out.println("Grounding Metadata: " + s));
+    
+    if (response.candidates().isPresent() && !response.candidates().get().isEmpty()) {
+        var candidate = response.candidates().get().get(0);
+        if (candidate.groundingMetadata().isPresent()) {
+             System.out.println("Grounding Metadata: " + candidate.groundingMetadata().get());
+        }
+    }
+    
     System.out.println(
-        "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+        "Google GenAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }
 }

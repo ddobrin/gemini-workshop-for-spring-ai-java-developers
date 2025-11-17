@@ -15,8 +15,7 @@
  */
 package gemini.workshop;
 
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
+import com.google.genai.Client;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +25,13 @@ import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.ai.converter.ListOutputConverter;
 import org.springframework.ai.converter.MapOutputConverter;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.core.convert.support.DefaultConversionService;
 
 public class StructuredOutputExample {
 
-	public static void mapOutputConverter(VertexAiGeminiChatModel chatClient) {
+	public static void mapOutputConverter(GoogleGenAiChatModel chatClient) {
 		MapOutputConverter mapOutputConverter = new MapOutputConverter();
 
 		String format = mapOutputConverter.getFormat();
@@ -58,10 +57,10 @@ public class StructuredOutputExample {
 		System.out.println("Format this response to a map: " + generation.getOutput().getText());
 		System.out.println("Formatted response: " + result);
 		System.out.println(
-				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+				"Google GenAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 	}
 
-	public static void listOutputConverter(VertexAiGeminiChatModel chatClient) {
+	public static void listOutputConverter(GoogleGenAiChatModel chatClient) {
 		ListOutputConverter listOutputConverter = new ListOutputConverter(new DefaultConversionService());
 
 		String format = listOutputConverter.getFormat();
@@ -87,10 +86,10 @@ public class StructuredOutputExample {
 		System.out.println("Format this response to a List: " + generation.getOutput().getText());
 		System.out.println("Formatted response: " + list);
 		System.out.println(
-				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+				"Google GenAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 	}
 
-	public static void beanOutputConverter(VertexAiGeminiChatModel chatClient) {
+	public static void beanOutputConverter(GoogleGenAiChatModel chatClient) {
 
 		record BooksAuthor(String writer, List<String> books) {}
 
@@ -121,18 +120,27 @@ public class StructuredOutputExample {
 
 		System.out.println("Formatted response: " + writerBooks);
 		System.out.println(
-				"VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+				"Google GenAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 	}
 
 	public static void main(String[] args) {
-			VertexAI vertexAI = new VertexAI.Builder().setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-					.setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-					.setTransport(Transport.REST)
+		boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+		Client client;
+		if (useVertexAi) {
+			client = Client.builder()
+					.project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+					.location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+					.vertexAI(true)
 					.build();
+		} else {
+			client = Client.builder()
+					.apiKey(System.getenv("GOOGLE_API_KEY"))
+					.build();
+		}
 
-		var geminiChatModel = VertexAiGeminiChatModel.builder()
-				.vertexAI(vertexAI)
-				.defaultOptions(VertexAiGeminiChatOptions.builder()
+		var geminiChatModel = GoogleGenAiChatModel.builder()
+				.genAiClient(client)
+				.defaultOptions(GoogleGenAiChatOptions.builder()
 						.model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
 						.temperature(0.2)
 						.topK(5)

@@ -15,31 +15,38 @@
  */
 package gemini.workshop;
 
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
+import com.google.genai.Client;
 import java.util.List;
 import java.util.Map;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.core.io.ClassPathResource;
 
 public class WorkingWithTemplatesExample {
 
   public static void main(String[] args) {
 
-    VertexAI vertexAI = new VertexAI.Builder()
-        .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setTransport(Transport.REST)
-        .build();
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+    }
 
-    var geminiChatModel = VertexAiGeminiChatModel.builder()
-        .vertexAI(vertexAI)
-        .defaultOptions(VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = GoogleGenAiChatModel.builder()
+        .genAiClient(client)
+        .defaultOptions(GoogleGenAiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
@@ -76,7 +83,7 @@ public class WorkingWithTemplatesExample {
         .call(new Prompt(List.of(userMessage, systemMessage)))
         .getResult().getOutput().getText());
     System.out.println(
-        "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+        "Google GenAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
 
     //-------------------------------------------
     // option2 : templates as resource files

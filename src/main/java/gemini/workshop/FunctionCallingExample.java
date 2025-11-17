@@ -20,8 +20,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
+import com.google.genai.Client;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -31,8 +30,8 @@ import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.tool.function.FunctionToolCallback;
 import org.springframework.ai.util.json.schema.SchemaType;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 
 public class FunctionCallingExample {
   /**
@@ -62,11 +61,19 @@ public class FunctionCallingExample {
 
   public static void main(String[] args) {
 
-    VertexAI vertexAI = new VertexAI.Builder()
-        .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setTransport(Transport.REST)
-        .build();
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+    }
 
     // create system message template
     SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate("""
@@ -98,9 +105,9 @@ public class FunctionCallingExample {
         .inputType(BookStoreService.Request.class)
         .build();
 
-    var geminiChatModel = VertexAiGeminiChatModel.builder()
-        .vertexAI(vertexAI)
-        .defaultOptions(VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = GoogleGenAiChatModel.builder()
+        .genAiClient(client)
+        .defaultOptions(GoogleGenAiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .toolCallbacks(List.of(fnWrapper))
@@ -112,6 +119,6 @@ public class FunctionCallingExample {
         .call(new Prompt(List.of(userMessage, systemMessage)))
         .getResult().getOutput().getText());
     System.out.println(
-        "VertexAI Gemini call with FunctionCalling took " + (System.currentTimeMillis() - start) + " ms");
+        "Google GenAI Gemini call with FunctionCalling took " + (System.currentTimeMillis() - start) + " ms");
   }
 }

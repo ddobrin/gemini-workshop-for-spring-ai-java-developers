@@ -15,8 +15,7 @@
  */
 package gemini.workshop;
 
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
+import com.google.genai.Client;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +32,9 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.ai.reader.TextReader;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
 
 public class SummarizationExample {
   private static final int CHUNK_SIZE = 10000;  // Number of words in each window
@@ -43,15 +42,23 @@ public class SummarizationExample {
 
   public static void main(String[] args) {
 
-    VertexAI vertexAI = new VertexAI.Builder()
-        .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setTransport(Transport.REST)
-        .build();
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+    }
 
-    var geminiChatModel = VertexAiGeminiChatModel.builder()
-        .vertexAI(vertexAI)
-        .defaultOptions(VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = GoogleGenAiChatModel.builder()
+        .genAiClient(client)
+        .defaultOptions(GoogleGenAiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .build())
@@ -68,7 +75,7 @@ public class SummarizationExample {
     }
   }
 
-  private static void summarizationStuffing(VertexAiGeminiChatModel geminiChatModel) throws IOException {
+  private static void summarizationStuffing(GoogleGenAiChatModel geminiChatModel) throws IOException {
     // read book
     TextReader textReader = new TextReader("classpath:/The-Wasteland-TSEliot-public.txt");
     String bookText = textReader.get().getFirst().getText();
@@ -99,7 +106,7 @@ public class SummarizationExample {
     // summarize document by stuffing the prompt with the content of the document
     long start = System.currentTimeMillis();
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
-        VertexAiGeminiChatOptions.builder()
+        GoogleGenAiChatOptions.builder()
             .temperature(0.2)
             .build()));
 
@@ -107,7 +114,7 @@ public class SummarizationExample {
     System.out.print("Summarization (stuffing test) took " + (System.currentTimeMillis() - start) + " milliseconds");
   }
 
-  private static void summarizationMapReduce(VertexAiGeminiChatModel geminiChatModel)
+  private static void summarizationMapReduce(GoogleGenAiChatModel geminiChatModel)
       throws ExecutionException, InterruptedException {
     // read book
     TextReader textReader = new TextReader("classpath:/The-Wasteland-TSEliot-public.txt");
@@ -165,7 +172,7 @@ public class SummarizationExample {
 
 
   //--- Helper methods ---
-  private static String processSummary(String context, Message systemMessage, VertexAiGeminiChatModel geminiChatModel) {
+  private static String processSummary(String context, Message systemMessage, GoogleGenAiChatModel geminiChatModel) {
     long start = System.currentTimeMillis();
     System.out.println(context+"\n\n");
 
@@ -181,7 +188,7 @@ public class SummarizationExample {
     Message userMessage = userPromptTemplate.createMessage();
 
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
-        VertexAiGeminiChatOptions.builder()
+        GoogleGenAiChatOptions.builder()
             .temperature(0.2)
             .build()));
     System.out.println("Summarization (final summary) took " + (System.currentTimeMillis() - start) + " milliseconds");
@@ -192,7 +199,7 @@ public class SummarizationExample {
       Integer index,
       String chunk,
       Message systemMessage,
-      VertexAiGeminiChatModel geminiChatModel) {
+      GoogleGenAiChatModel geminiChatModel) {
 
     Map<Integer, String> outputWithIndex = new HashMap<>();
     String output = processChunk("", chunk, systemMessage, geminiChatModel);
@@ -204,7 +211,7 @@ public class SummarizationExample {
       String context,
       String chunk,
       Message systemMessage,
-      VertexAiGeminiChatModel geminiChatModel) {
+      GoogleGenAiChatModel geminiChatModel) {
     long start = System.currentTimeMillis();
 
     PromptTemplate userPromptTemplate;
@@ -244,7 +251,7 @@ public class SummarizationExample {
     Message userMessage = userPromptTemplate.createMessage();
 
     ChatResponse response = geminiChatModel.call(new Prompt(List.of(userMessage, systemMessage),
-        VertexAiGeminiChatOptions.builder()
+        GoogleGenAiChatOptions.builder()
             .temperature(0.2)
             .build()));
     System.out.println("Summarization (single chunk) took " + (System.currentTimeMillis() - start) + " milliseconds");

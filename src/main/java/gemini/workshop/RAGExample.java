@@ -15,10 +15,10 @@
  */
 package gemini.workshop;
 
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
+import com.google.genai.Client;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -30,24 +30,40 @@ import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
-import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
-import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingOptions;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
-import java.util.stream.Collectors;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
+import org.springframework.ai.google.genai.GoogleGenAiEmbeddingConnectionDetails;
+import org.springframework.ai.google.genai.text.GoogleGenAiTextEmbeddingModel;
+import org.springframework.ai.google.genai.text.GoogleGenAiTextEmbeddingOptions;
 
 public class RAGExample {
   public static void main(String[] args) {
-    VertexAI vertexAI = new VertexAI.Builder()
-        .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setTransport(Transport.REST)
-        .build();
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    GoogleGenAiEmbeddingConnectionDetails connectionDetails;
 
-    var geminiChatModel = VertexAiGeminiChatModel.builder()
-        .vertexAI(vertexAI)
-        .defaultOptions(VertexAiGeminiChatOptions.builder()
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+      connectionDetails = GoogleGenAiEmbeddingConnectionDetails.builder()
+          .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+      connectionDetails = GoogleGenAiEmbeddingConnectionDetails.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+    }
+
+    var geminiChatModel = GoogleGenAiChatModel.builder()
+        .genAiClient(client)
+        .defaultOptions(GoogleGenAiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
@@ -86,18 +102,12 @@ public class RAGExample {
           chunk.getText().substring(0, 25),
           chunk.getText().length());
 
-    VertexAiEmbeddingConnectionDetails connectionDetails =
-        VertexAiEmbeddingConnectionDetails.builder()
-            .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-            .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-            .build();
-
     // Default embedding model: text-embedding-004
-    VertexAiTextEmbeddingOptions options = VertexAiTextEmbeddingOptions.builder()
-        .model(VertexAiTextEmbeddingOptions.DEFAULT_MODEL_NAME)
+    GoogleGenAiTextEmbeddingOptions options = GoogleGenAiTextEmbeddingOptions.builder()
+        .model("text-embedding-004")
         .build();
 
-    EmbeddingModel embeddingModel = new VertexAiTextEmbeddingModel(connectionDetails, options);
+    EmbeddingModel embeddingModel = new GoogleGenAiTextEmbeddingModel(connectionDetails, options);
 
     // create a simple (in memory) vector store, good for education purposes
     // for production usage, here's the available list of VectorStore implementations
@@ -147,6 +157,6 @@ public class RAGExample {
         .call(new Prompt(List.of(userMessage, systemMessage)))
         .getResult().getOutput().getText());
     System.out.println(
-        "VertexAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+        "Google GenAI Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }
 }

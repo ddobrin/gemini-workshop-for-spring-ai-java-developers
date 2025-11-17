@@ -19,24 +19,32 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.ai.reader.TextReader;
-import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
-import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingModel;
-import org.springframework.ai.vertexai.embedding.text.VertexAiTextEmbeddingOptions;
+import org.springframework.ai.google.genai.GoogleGenAiEmbeddingConnectionDetails;
+import org.springframework.ai.google.genai.text.GoogleGenAiTextEmbeddingModel;
+import org.springframework.ai.google.genai.text.GoogleGenAiTextEmbeddingOptions;
 
 public class TextEmbeddingExample {
   public static void main(String[] args) {
-    VertexAiEmbeddingConnectionDetails connectionDetails =
-        VertexAiEmbeddingConnectionDetails.builder()
+
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    GoogleGenAiEmbeddingConnectionDetails connectionDetails;
+    if (useVertexAi) {
+        connectionDetails = GoogleGenAiEmbeddingConnectionDetails.builder()
             .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
             .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
             .build();
+    } else {
+        connectionDetails = GoogleGenAiEmbeddingConnectionDetails.builder()
+            .apiKey(System.getenv("GOOGLE_API_KEY"))
+            .build();
+    }
 
     // Default embedding model: text-embedding-004
-    VertexAiTextEmbeddingOptions options = VertexAiTextEmbeddingOptions.builder()
-        .model(VertexAiTextEmbeddingOptions.DEFAULT_MODEL_NAME)
+    GoogleGenAiTextEmbeddingOptions options = GoogleGenAiTextEmbeddingOptions.builder()
+        .model("text-embedding-004")
         .build();
 
-    var embeddingModel = new VertexAiTextEmbeddingModel(connectionDetails, options);
+    var embeddingModel = new GoogleGenAiTextEmbeddingModel(connectionDetails, options);
 
     // read the book to generate embeddings for
     TextReader reader = new TextReader("classpath:/the-jungle-book.txt");

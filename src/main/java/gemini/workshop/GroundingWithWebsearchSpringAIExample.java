@@ -15,35 +15,42 @@
  */
 package gemini.workshop;
 
-import com.google.cloud.vertexai.Transport;
-import com.google.cloud.vertexai.VertexAI;
+import com.google.genai.Client;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatModel;
-import org.springframework.ai.vertexai.gemini.VertexAiGeminiChatOptions;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 
 public class GroundingWithWebsearchSpringAIExample {
 
   public static void main(String[] args) {
 
-    VertexAI vertexAI = new VertexAI.Builder()
-        .setLocation(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-        .setProjectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-        .setTransport(Transport.REST)
-        .build();
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+    }
 
     // call the 2 models
     // observe that the non-grounded call can't provide the requested info
-    askModel(vertexAI,"Non-grounded Gemini model", false);
+    askModel(client,"Non-grounded Gemini model", false);
     // grounded call can provide the requested info
-    askModel(vertexAI,"Grounded Gemini model", true);
+    askModel(client,"Grounded Gemini model", true);
   }
 
-  private static void askModel(VertexAI vertexAI, String modelType, boolean useWebSearch) {
+  private static void askModel(Client client, String modelType, boolean useWebSearch) {
     // enable or disable Web Search with Google in the ChatOptions
-    var geminiChatModel = VertexAiGeminiChatModel.builder()
-        .vertexAI(vertexAI)
-        .defaultOptions(VertexAiGeminiChatOptions.builder()
+    var geminiChatModel = GoogleGenAiChatModel.builder()
+        .genAiClient(client)
+        .defaultOptions(GoogleGenAiChatOptions.builder()
             .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
@@ -56,7 +63,7 @@ public class GroundingWithWebsearchSpringAIExample {
     // Spring AI issue - fixed  in upcoming release
     // Websearch flag must be set in a Prompt object creation
     // currently, setting it in the ChatOptions won't copy the flag in the prompt
-    Prompt promptObject = new Prompt(prompt, VertexAiGeminiChatOptions.builder().googleSearchRetrieval(useWebSearch).build());
+    Prompt promptObject = new Prompt(prompt, GoogleGenAiChatOptions.builder().googleSearchRetrieval(useWebSearch).build());
 
     long start = System.currentTimeMillis();
     System.out.println("Model type: " + modelType);
@@ -64,6 +71,6 @@ public class GroundingWithWebsearchSpringAIExample {
 
     System.out.println("GEMINI: " + chatResponse.getResult().getOutput().getText());
     System.out.println(
-        "VertexAI " + modelType + " Gemini call took " + (System.currentTimeMillis() - start) + " ms");
+        "Google GenAI " + modelType + " Gemini call took " + (System.currentTimeMillis() - start) + " ms");
   }
 }

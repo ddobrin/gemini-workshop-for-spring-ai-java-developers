@@ -15,58 +15,52 @@
  */
 package gemini.workshop;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import org.springframework.ai.content.Media;
-import org.springframework.ai.document.Document;
-import org.springframework.ai.embedding.DocumentEmbeddingRequest;
-import org.springframework.ai.embedding.EmbeddingOptions;
-import org.springframework.ai.embedding.EmbeddingResponse;
-import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
-import org.springframework.ai.vertexai.embedding.multimodal.VertexAiMultimodalEmbeddingModel;
-import org.springframework.ai.vertexai.embedding.multimodal.VertexAiMultimodalEmbeddingOptions;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.MimeType;
-import org.springframework.util.MimeTypeUtils;
+import com.google.genai.Client;
+import java.io.IOException;
 
 public class MultimodalEmbeddingExample {
-  public static void main(String[] args) {
-    VertexAiEmbeddingConnectionDetails connectionDetails =
-        VertexAiEmbeddingConnectionDetails.builder()
-            .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-            .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
-            .build();
+  public static void main(String[] args) throws IOException {
 
+    boolean useVertexAi = Boolean.parseBoolean(System.getenv("USE_VERTEX_AI"));
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
+          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+    }
+
+    System.out.println("Multimodal embedding using com.google.genai.Client is not yet supported in the current SDK version.");
+    /*
     // default multimodal embedding model multimodalembedding@001
-    VertexAiMultimodalEmbeddingOptions options = VertexAiMultimodalEmbeddingOptions.builder()
-        .model("multimodalembedding")
-        .build();
+    String model = "multimodalembedding";
 
-    var embeddingModel = new VertexAiMultimodalEmbeddingModel(connectionDetails, options);
+    byte[] imageBytes = new ClassPathResource("/Coffee.png").getContentAsByteArray();
+    byte[] videoBytes = new ClassPathResource("/Birds.mp4").getContentAsByteArray();
 
-    Media imageMedia = new Media(MimeTypeUtils.IMAGE_PNG, new ClassPathResource("/Coffee.png"));
-    Media videoMedia = new Media(new MimeType("video", "mp4"), new ClassPathResource("/Birds.mp4"));
-
-    var textDocument = Document.builder()
-        .text("Explain what you see in this image and this video")
+    Content content = Content.builder()
+        .parts(Arrays.asList(
+            Part.builder().text("Explain what you see in this image and this video").build(),
+            Part.fromBytes(imageBytes, "image/png"),
+            Part.fromBytes(videoBytes, "video/mp4")
+        ))
         .build();
-    var imageDocument = Document.builder()
-        .media(imageMedia)
-        .build();
-    var videoDocument = Document.builder()
-        .media(videoMedia)
-        .build();
-
-    // create a new Embedding Request
-    DocumentEmbeddingRequest embeddingRequest = new DocumentEmbeddingRequest(List.of(textDocument, imageDocument, videoDocument),
-        EmbeddingOptions.builder().build());
 
     // call the embedding model
     long start = System.currentTimeMillis();
-    EmbeddingResponse embeddingResponse = embeddingModel.call(embeddingRequest);
-    System.out.println("Embedding response: " + Arrays.toString(embeddingResponse.getResult().getOutput()));
+    // embedContent only supports String or List<String> in current SDK version
+    EmbedContentResponse embeddingResponse = client.models.embedContent(model, content, null);
+    
+    if (embeddingResponse.embedding() != null) {
+        System.out.println("Embedding response: " + embeddingResponse.embedding().values());
+    }
     System.out.println(
-        "VertexAI call took " + (System.currentTimeMillis() - start) + " ms");
+        "Google GenAI call took " + (System.currentTimeMillis() - start) + " ms");
+    */
   }
 }
