@@ -7,6 +7,11 @@ Gemini workshop for Java developers, using the Spring AI orchestration framework
 > and its open-source variant [Gemma](https://ai.google.dev/gemma) Large Language Model by Google using [Spring AI](https://docs.spring.io/spring-ai/reference/index.html)
 > framework.
 
+## Library support
+* Spring AI 1.1.0
+* Google GenAI SDK 1.27.0
+
+
 ## Prerequisites
 
 The code examples have been tested on the following environment:
