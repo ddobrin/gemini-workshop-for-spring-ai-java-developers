@@ -21,7 +21,7 @@ import java.util.Map;
 import org.springframework.ai.content.Media;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.DocumentEmbeddingRequest;
-import org.springframework.ai.embedding.EmbeddingOptionsBuilder;
+import org.springframework.ai.embedding.EmbeddingOptions;
 import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.ai.vertexai.embedding.VertexAiEmbeddingConnectionDetails;
 import org.springframework.ai.vertexai.embedding.multimodal.VertexAiMultimodalEmbeddingModel;
@@ -60,7 +60,7 @@ public class MultimodalEmbeddingExample {
 
     // create a new Embedding Request
     DocumentEmbeddingRequest embeddingRequest = new DocumentEmbeddingRequest(List.of(textDocument, imageDocument, videoDocument),
-        EmbeddingOptionsBuilder.builder().build());
+        EmbeddingOptions.builder().build());
 
     // call the embedding model
     long start = System.currentTimeMillis();
