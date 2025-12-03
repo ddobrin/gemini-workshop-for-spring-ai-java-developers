@@ -1,0 +1,120 @@
+package gemini.workshop;
+
+import com.fasterxml.jackson.annotation.JsonClassDescription;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.google.genai.Client;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.chat.prompt.SystemPromptTemplate;
+import org.springframework.ai.tool.function.FunctionToolCallback;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
+import reactor.core.publisher.Flux;
+import org.springframework.ai.chat.model.ChatResponse;
+
+public class FunctionCallingStreamingExample {
+  /**
+   * BookStoreService is a function that checks the availability of a book in the bookstore.
+   * Invoked by the LLM using the function calling feature.
+   */
+  @JsonClassDescription("Get the book availability in the bookstore")
+  public static class BookStoreService
+      implements Function<BookStoreService.Request, BookStoreService.Response> {
+
+    @JsonInclude(Include.NON_NULL)
+    @JsonClassDescription("BookStore API Request")
+    public record Request(
+        @JsonProperty(required = true, value = "title") @JsonPropertyDescription("The title of the book") String title,
+        @JsonProperty(required = true, value = "author") @JsonPropertyDescription("The author of the book") String author) {
+    }
+    @JsonInclude(Include.NON_NULL)
+    public record Response(String title, String author, String availability) {
+    }
+
+    @Override
+    public Response apply(Request request) {
+      System.out.printf("Function Call: Called getBookAvailability(%s, %s)\n", request.title(), request.author());
+      return new Response(request.title(), request.author(), "The book is available for purchase in the book store in paperback format.");
+    }
+  }
+
+  public static void main(String[] args) {
+
+    String useVertexAiEnv = System.getenv("USE_VERTEX_AI");
+    boolean useVertexAi = useVertexAiEnv != null ? Boolean.parseBoolean(useVertexAiEnv) : true;
+    Client client;
+    if (useVertexAi) {
+      client = Client.builder()
+          .project(System.getenv("GOOGLE_CLOUD_PROJECT"))
+          .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
+          .vertexAI(true)
+          .build();
+    } else {
+      client = Client.builder()
+          .apiKey(System.getenv("GOOGLE_API_KEY"))
+          .build();
+    }
+
+    // create system message template
+    SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate("""
+        You are a helpful AI assistant.
+        You are an AI assistant that helps people get high quality literary information.
+        Use function calling.
+        Answer with precision.
+        If the information was not fetched call the function again. Repeat at most 3 times.
+        """
+    );
+    Message systemMessage = systemPromptTemplate.createMessage();
+
+    // create user message template
+    PromptTemplate userPromptTemplate = PromptTemplate.builder().template("""
+        Write a nice note including book author, book title and availability.
+        Find out if the book with the title {title} by author {author} is available in the bookstore.
+        Please add also this book summary to the response, with the text available after the column, prefix it with My Book Summary:  {summary}"
+        """)
+        .variables(Map.of("title", "The Jungle Book",
+                    "author", "Rudyard Kipling",
+                    "summary", "This is the Jungle Book summary"))
+        .build();
+    Message userMessage = userPromptTemplate.createMessage();
+
+    // build a FunctionCallbackWrapper to regisater the BookStoreService
+    // as a function
+    FunctionToolCallback fnWrapper = FunctionToolCallback.builder("bookStoreAvailability", new BookStoreService())
+        .description("Get availability of a book in the bookstore")
+        .inputType(BookStoreService.Request.class)
+        .build();
+
+    var geminiChatModel = GoogleGenAiChatModel.builder()
+        .genAiClient(client)
+        .defaultOptions(GoogleGenAiChatOptions.builder()
+            .model(System.getenv("GEMINI_MODEL"))
+            .temperature(0.2)
+            .toolCallbacks(List.of(fnWrapper))
+            .build())
+        .build();
+
+    long start = System.currentTimeMillis();
+    System.out.println("GEMINI Streaming Response: ");
+    
+    Flux<ChatResponse> stream = geminiChatModel.stream(new Prompt(List.of(userMessage, systemMessage)));
+    
+    stream.doOnNext(response -> {
+        if (response.getResult() != null && response.getResult().getOutput() != null) {
+            String content = response.getResult().getOutput().getText();
+            if (content != null) {
+                System.out.print(content);
+            }
+        }
+    }).blockLast();
+
+    System.out.println("\nGoogle GenAI Gemini streaming call with FunctionCalling took " + (System.currentTimeMillis() - start) + " ms");
+  }
+}

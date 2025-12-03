@@ -1,4 +1,4 @@
-# Gemini in Java with Vertex AI and Spring AI
+# Gemini in Java with Google GenAI SDK and Spring AI
 Gemini workshop for Java developers, using the Spring AI orchestration framework
 
 > [!NOTE]
@@ -129,7 +129,7 @@ Build the samples in a single JAR, then run them individually for the respective
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.StructuredOutputExample
       ```
-  * [Grounding responses with Web Search with Vertex SDK](src/main/java/gemini/workshop/GroundingWithWebsearchExample.java)
+  * [Grounding responses with Web Search with GenAI SDK SDK](src/main/java/gemini/workshop/GroundingWithWebsearchExample.java)
     ```shell
     java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.GroundingWithWebsearchExample
     ```
@@ -143,6 +143,11 @@ Build the samples in a single JAR, then run them individually for the respective
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingExample
       ```
+
+  * [Function Calling with Spring AI (Streaming)](src/main/java/gemini/workshop/FunctionCallingStreamingExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingStreamingExample
+      ```
 * Document utilities
   * [Document Readers and Splitters](src/main/java/gemini/workshop/DocumentProcessingExample.java)
       ```shell
@@ -150,12 +155,12 @@ Build the samples in a single JAR, then run them individually for the respective
       ```
 
 * Embeddings
-  * [Generating Text Embeddings with Vertex AI](src/main/java/gemini/workshop/TextEmbeddingExample.java)
+  * [Generating Text Embeddings with GenAI SDK](src/main/java/gemini/workshop/TextEmbeddingExample.java)
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.TextEmbeddingExample
       ```
 
-  * [Generating Multimodal Embeddings with Vertex AI](src/main/java/gemini/workshop/MultimodalEmbeddingExample.java)
+  * [Generating Multimodal Embeddings with GenAI SDK](src/main/java/gemini/workshop/MultimodalEmbeddingExample.java)
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
       ```
