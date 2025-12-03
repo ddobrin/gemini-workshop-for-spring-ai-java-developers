@@ -148,6 +148,31 @@ Build the samples in a single JAR, then run them individually for the respective
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingStreamingExample
       ```
+
+  * [Function Calling with Spring AI (Multiple Functions)](src/main/java/gemini/workshop/FunctionCallingMultipleExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingMultipleExample
+      ```
+
+  * [Function Calling with Spring AI (Async)](src/main/java/gemini/workshop/FunctionCallingAsyncExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingAsyncExample
+      ```
+
+  * [Function Calling with Spring AI (JSON Schema)](src/main/java/gemini/workshop/FunctionCallingJsonSchemaExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FunctionCallingJsonSchemaExample
+      ```
+
+  * [File Search Store (Sync)](src/main/java/gemini/workshop/FileSearchStoreExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FileSearchStoreExample
+      ```
+
+  * [File Search Store (Async)](src/main/java/gemini/workshop/FileSearchStoreAsyncExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.FileSearchStoreAsyncExample
+      ```
 * Document utilities
   * [Document Readers and Splitters](src/main/java/gemini/workshop/DocumentProcessingExample.java)
       ```shell
