@@ -34,8 +34,8 @@ public class GroundingWithWebsearchExample {
     Client client;
     if (useVertexAi) {
       client = Client.builder()
-          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .project(System.getenv("GOOGLE_CLOUD_PROJECT"))
+          .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
           .vertexAI(true)
           .build();
     } else {
@@ -49,7 +49,7 @@ public class GroundingWithWebsearchExample {
         .googleSearch(GoogleSearch.builder().build())
         .build();
 
-    String modelName = System.getenv("VERTEX_AI_GEMINI_MODEL");
+    String modelName = System.getenv("GEMINI_MODEL");
     String prompt = "Which country won most medals at the Paris 2024 Olympics";
 
     // call the 2 models

@@ -32,8 +32,8 @@ public class MultimodalAudioExample {
     Client client;
     if (useVertexAi) {
       client = Client.builder()
-          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .project(System.getenv("GOOGLE_CLOUD_PROJECT"))
+          .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
           .vertexAI(true)
           .build();
     } else {
@@ -63,7 +63,7 @@ public class MultimodalAudioExample {
         .build();
 
     GenerateContentResponse response = client.models.generateContent(
-        System.getenv("VERTEX_AI_GEMINI_MODEL"),
+        System.getenv("GEMINI_MODEL"),
         content,
         generationOptions
     );

@@ -30,8 +30,8 @@ public class TextEmbeddingExample {
     GoogleGenAiEmbeddingConnectionDetails connectionDetails;
     if (useVertexAi) {
         connectionDetails = GoogleGenAiEmbeddingConnectionDetails.builder()
-            .projectId(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-            .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+            .projectId(System.getenv("GOOGLE_CLOUD_PROJECT"))
+            .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
             .build();
     } else {
         connectionDetails = GoogleGenAiEmbeddingConnectionDetails.builder()

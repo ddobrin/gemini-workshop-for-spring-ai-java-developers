@@ -26,8 +26,8 @@ Before running the examples, you'll need to set up environment variables, for ei
 ```bash
 Credentials: 
   Google creds set:
-    export VERTEX_AI_GEMINI_PROJECT_ID=<your-project-id>
-    export VERTEX_AI_GEMINI_LOCATION=<your region>, ex: us-central1
+    export GOOGLE_CLOUD_PROJECT=<your-project-id>
+    export GOOGLE_CLOUD_LOCATION=<your region>, ex: us-central1
     export USE_VERTEX_AI=true
 
   Google API Key:
@@ -35,7 +35,7 @@ Credentials:
     export USE_VERTEX_AI=false
 
 Model:     
-  export VERTEX_AI_GEMINI_MODEL=<model>, ex: gemini-2.5-flash
+  export GEMINI_MODEL=<model>, ex: gemini-2.5-flash
 ```
 
 > [!IMPORTANT]

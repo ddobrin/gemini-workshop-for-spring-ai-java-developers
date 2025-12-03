@@ -28,8 +28,8 @@ public class SimpleChatExample {
     Client client;
     if (useVertexAi) {
       client = Client.builder()
-          .project(System.getenv("VERTEX_AI_GEMINI_PROJECT_ID"))
-          .location(System.getenv("VERTEX_AI_GEMINI_LOCATION"))
+          .project(System.getenv("GOOGLE_CLOUD_PROJECT"))
+          .location(System.getenv("GOOGLE_CLOUD_LOCATION"))
           .vertexAI(true)
           .build();
     } else {
@@ -41,7 +41,7 @@ public class SimpleChatExample {
     var geminiChatModel = GoogleGenAiChatModel.builder()
         .genAiClient(client)
         .defaultOptions(GoogleGenAiChatOptions.builder()
-            .model(System.getenv("VERTEX_AI_GEMINI_MODEL"))
+            .model(System.getenv("GEMINI_MODEL"))
             .temperature(0.2)
             .topK(5)
             .topP(0.95)
