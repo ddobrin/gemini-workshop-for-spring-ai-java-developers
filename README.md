@@ -8,8 +8,8 @@ Gemini workshop for Java developers, using the Spring AI orchestration framework
 > framework.
 
 ## Library support
-* Spring AI 1.1.0
-* Google GenAI SDK 1.27.0
+* Spring AI 2.0.0-M1
+* Google GenAI SDK 1.28.0
 
 
 ## Prerequisites
@@ -61,12 +61,19 @@ The samples in this codelab are grouped by various capabilities and patterns. Yo
   * Structure prompts with prompt templates
   * Extracting structured data from unstructured text
   * Grounding responses with Web Search
-  * Function Calling with Spring AI
+  * Function Calling with Spring AI (multiple functions, JSON Schema, Async, Streaming)
 * Document utilities
   * Document Readers and Splitters
 * Embeddings
   * Generating Text Embeddings with Vertex AI
   * Generating Multimodal Embeddings with Vertex AI
+* Token Management
+  * Compute Tokens
+  * Count Tokens
+  * Count Tokens with Configs
+* File Search Store
+  * File Search Store (Sync)
+  * File Search Store (Async)
 * AI use-cases and patterns
   * Retrieval-augmented generation(RAG)
   * Text classification with Few-shot prompting
@@ -188,6 +195,22 @@ Build the samples in a single JAR, then run them individually for the respective
   * [Generating Multimodal Embeddings with GenAI SDK](src/main/java/gemini/workshop/MultimodalEmbeddingExample.java)
       ```shell
       java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.MultimodalEmbeddingExample
+      ```
+
+* Token Management
+  * [Compute Tokens](src/main/java/gemini/workshop/ComputeTokensExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.ComputeTokensExample
+      ```
+
+  * [Count Tokens](src/main/java/gemini/workshop/CountTokensExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.CountTokensExample
+      ```
+
+  * [Count Tokens with Configs](src/main/java/gemini/workshop/CountTokensWithConfigsExample.java)
+      ```shell
+      java -cp ./target/spring-ai-workshop-1.0.0-jar-with-dependencies.jar gemini.workshop.CountTokensWithConfigsExample
       ```
 
 * AI use-cases and patterns
