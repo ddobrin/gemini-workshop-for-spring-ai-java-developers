@@ -2,26 +2,28 @@
 Gemini workshop for Java developers, using the Spring AI orchestration framework
 
 > [!NOTE]
-> This is the code for [Gemini in Java with Vertex AI and Spring AI]()
-> codelab geared towards Java developers to discover [Gemini](https://deepmind.google/technologies/gemini/)
-> and its open-source variant [Gemma](https://ai.google.dev/gemma) Large Language Model by Google using [Spring AI](https://docs.spring.io/spring-ai/reference/index.html)
+> 
+> These snippets are geared towards Java developers, 
+> allowing them to discover capabilities and patterns supported by [Gemini](https://deepmind.google/technologies/gemini/)
+> using the [Spring AI](https://docs.spring.io/spring-ai/reference/index.html)
 > framework.
 
 ## Library support
-* Spring AI 1.1.1
-* Google GenAI SDK 1.28.0
-
+* Released
+  * Spring AI 1.1.1
+  * Google GenAI SDK 1.28.0
+* Milestone
+  * upcoming Spring AI 2.0.0
 
 ## Prerequisites
 
-The code examples have been tested on the following environment:
-
-* Java 21
+The code snippets have been tested on the following environment:
+* Java 21/25
 * Maven >= 3.9.6
 
-In order to run these examples, you need to have a Google Cloud account and project ready.
+In order to run these code snippets, you need to have a Google Cloud account and project ready.
 
-Before running the examples, you'll need to set up environment variables, for either Google credentials or [get an API Key from Google AI Studio](https://aistudio.google.com/welcome):
+Before running the examples, you'll need to set up environment variables, for either Google credentials or [or an API Key from Google AI Studio](https://aistudio.google.com/welcome):
 
 ```bash
 Credentials: 
@@ -35,7 +37,7 @@ Credentials:
     export USE_VERTEX_AI=false
 
 Model:     
-  export GEMINI_MODEL=<model>, ex: gemini-2.5-flash
+  export GEMINI_MODEL=<model>, ex: gemini-3-pro-preview, gemini-2.5-flash
 ```
 
 > [!IMPORTANT]
@@ -47,8 +49,8 @@ Create the Maven wrapper:
 mvn wrapper:wrapper
 ```
 
-## Codelab Samples
-The samples in this codelab are grouped by various capabilities and patterns. You will find, in order:
+## Complete list
+The snippets in this workshop are grouped by various capabilities and patterns. You will find, in order:
 * Chat
   * Simple Q&A with Gemini
   * Conversation with Gemini with chat history
@@ -84,7 +86,7 @@ The samples in this codelab are grouped by various capabilities and patterns. Yo
 
 ### Build
 > [!TIP]
-> Note the profiles `complete` used for the build
+> Note the profile `complete` used for the build
 
 Build the samples in a single JAR, then run them individually for the respective use-case:
 ```shell
