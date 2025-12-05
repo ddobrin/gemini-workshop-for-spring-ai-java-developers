@@ -8,7 +8,7 @@ Gemini workshop for Java developers, using the Spring AI orchestration framework
 > framework.
 
 ## Library support
-* Spring AI 2.0.0-M1
+* Spring AI 1.1.1
 * Google GenAI SDK 1.28.0
 
 
